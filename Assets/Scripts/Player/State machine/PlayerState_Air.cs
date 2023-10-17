@@ -25,7 +25,12 @@ public class PlayerState_Air : PlayerState
         base.Update();
 
         if (player.isGroundDetected())
-            stateMachine.ChangeState(player.idleState);            
+        {
+            if (xInput == 0)
+                stateMachine.ChangeState(player.idleState);
+            else
+                stateMachine.ChangeState(player.moveState);
+        }
     }
 
     public override void Exit()
