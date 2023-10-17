@@ -12,7 +12,14 @@ public class PlayerState_Jump : PlayerState
     {
         base.Enter();
 
-        rb.velocity = new Vector2(rb.velocity.x, player.jumpForce);
+        player.SetVelocity(rb.velocity.x, player.jumpForce);
+    }
+
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+
+        player.SetVelocity(player.moveSpeed * 0.8f * xInput, rb.velocity.y);
     }
 
     public override void Update()
