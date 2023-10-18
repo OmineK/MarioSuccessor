@@ -4,27 +4,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Windows;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
     [Header("Movement info")]
     public float moveSpeed;
     public float jumpForce;
-
-    [Header("Collision info")]
-    [SerializeField] Transform groundCheck;
-    [SerializeField] float groundCheckDistance;
-    [SerializeField] Transform wallCheck;
-    [SerializeField] float wallCheckDistance;
-    [SerializeField] LayerMask whatIsGround;
-
-    public int facingDir { get; private set; } = 1;
-
-    public Rigidbody2D rb { get; private set; }
-    public Animator anim { get; private set; }
-
-    bool facingRight = true;
-
-    #region States
 
     public PlayerStateMachine stateMachine { get; private set; }
     public PlayerState_Idle idleState { get; private set; }
@@ -32,12 +16,9 @@ public class Player : MonoBehaviour
     public PlayerState_Jump jumpState { get; private set; }
     public PlayerState_Air airState { get; private set; }
 
-    #endregion
-
-    void Awake()
+    protected override void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponentInChildren<Animator>();
+        base.Awake();
 
         stateMachine = new PlayerStateMachine();
         idleState = new PlayerState_Idle(this, stateMachine, "Idle");
@@ -46,50 +27,24 @@ public class Player : MonoBehaviour
         airState = new PlayerState_Air(this, stateMachine, "Jump");
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         stateMachine.Initialize(idleState);
     }
 
-    void FixedUpdate()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
+
         stateMachine.currentState.FixedUpdate();
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+
         stateMachine.currentState.Update();
-    }
-
-    public void SetZeroVelocity() => rb.velocity = Vector3.zero;
-
-    public void SetVelocity(float _xVelocity, float _yVelocity)
-    {
-        rb.velocity = new Vector3(_xVelocity, _yVelocity);
-        FlipControler(_xVelocity);
-    }
-
-    public void FlipControler(float _x)
-    {
-        if (_x > 0 && !facingRight)
-            Flip();
-        else if (_x < 0 && facingRight)
-            Flip();
-    }
-
-    public void Flip()
-    {
-        facingDir *= -1;
-        facingRight = !facingRight;
-        transform.Rotate(0, 180, 0);
-    }
-
-    public virtual bool isGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
-    public virtual bool isWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsGround);
-
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
-        Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
     }
 }
