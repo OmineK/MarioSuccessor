@@ -1786,10 +1786,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Mouse
       objectReference: {fileID: 0}
-    - target: {fileID: 2399837783637683087, guid: 0a168c216e8d4a8419f3fa6e64354f32, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a168c216e8d4a8419f3fa6e64354f32, type: 3}
 --- !u!1001 &7331851298988430230
