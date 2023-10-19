@@ -27,6 +27,12 @@ public class MouseState_Move : EnemyState
     {
         base.Update();
 
+        if (enemy.isDead)
+        {
+            stateMachine.ChangeState(mouseEnemy.deadState);
+            return;
+        }
+
         if (enemy.isWallDetected() || !enemy.isGroundDetected())
             enemy.Flip();
     }

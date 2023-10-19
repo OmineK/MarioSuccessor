@@ -33,8 +33,6 @@ public class Enemy : Entity
 
     protected override void FixedUpdate()
     {
-        if (isDead) return;
-
         base.FixedUpdate();
 
         stateMachine.currentState.FixedUpdate();
@@ -42,8 +40,6 @@ public class Enemy : Entity
 
     protected override void Update()
     {
-        if (isDead) return;
-
         base.Update();
 
         stateMachine.currentState.Update();
@@ -52,8 +48,6 @@ public class Enemy : Entity
     public virtual void Die()
     {
         isDead = true;
-
-        SetVelocity(0, 3);
 
         if (capsuleCollider != null)
             capsuleCollider.isTrigger = true;

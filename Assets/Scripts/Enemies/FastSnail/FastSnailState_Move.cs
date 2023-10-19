@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 
 public class FastSnailState_Move : EnemyState
@@ -26,6 +27,12 @@ public class FastSnailState_Move : EnemyState
     public override void Update()
     {
         base.Update();
+
+        if (enemy.isDead)
+        {
+            stateMachine.ChangeState(fastSnailEnemy.deadState);
+            return;
+        }
 
         if (enemy.isWallDetected() || !enemy.isGroundDetected())
             enemy.Flip();
