@@ -16,6 +16,8 @@ public class Player : Entity
     public PlayerState_Jump jumpState { get; private set; }
     public PlayerState_Air airState { get; private set; }
 
+    CapsuleCollider2D capsuleCollider;
+
     protected override void Awake()
     {
         base.Awake();
@@ -25,6 +27,8 @@ public class Player : Entity
         moveState = new PlayerState_Move(this, stateMachine, "Move");
         jumpState = new PlayerState_Jump(this, stateMachine, "Jump");
         airState = new PlayerState_Air(this, stateMachine, "Jump");
+
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
 
     protected override void Start()
@@ -47,4 +51,28 @@ public class Player : Entity
 
         stateMachine.currentState.Update();
     }
+
+
+
+    #region Collision
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Enemy>() != null)
+        {
+            Enemy currentEnemy = collision.gameObject.GetComponent<Enemy>();
+            GameManager.instance.IncreaseSocre(currentEnemy.scoreValue);
+            currentEnemy.Die();
+
+            SetVelocity(0, 10);
+        }
+    }
+
+    void Die()
+    {
+        capsuleCollider.isTrigger = true;
+        SetVelocity(0, 10);
+    }
+
+    #endregion
 }
