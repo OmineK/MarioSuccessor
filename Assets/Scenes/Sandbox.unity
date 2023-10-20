@@ -374,6 +374,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
+  playerLifeAmount: 2
+  gameOver: 0
 --- !u!4 &309245573
 Transform:
   m_ObjectHideFlags: 0
@@ -481,7 +483,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518608962}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.01, y: -2.67, z: 0}
+  m_LocalPosition: {x: -13.89, y: -2.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -512,6 +514,10 @@ MonoBehaviour:
     m_Bits: 8
   moveSpeed: 4
   jumpForce: 12
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 64
+  isDead: 0
 --- !u!50 &518608965
 Rigidbody2D:
   serializedVersion: 4
@@ -627,7 +633,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.781107, y: 0.21236545, z: -9.937504}
+  m_LocalPosition: {x: -11.661108, y: 0.19236547, z: -9.937504}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1601,11 +1607,11 @@ MonoBehaviour:
   m_ScreenX: 0.5
   m_ScreenY: 0.5
   m_CameraDistance: 10
-  m_DeadZoneWidth: 0.012
+  m_DeadZoneWidth: 0.02
   m_DeadZoneHeight: 2
   m_DeadZoneDepth: 0
   m_UnlimitedSoftZone: 0
-  m_SoftZoneWidth: 0.054
+  m_SoftZoneWidth: 0.04
   m_SoftZoneHeight: 2
   m_BiasX: 0
   m_BiasY: 0
@@ -1684,7 +1690,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036932988}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.781107, y: 0.21236545, z: -9.937504}
+  m_LocalPosition: {x: -11.661108, y: 0.19236547, z: -9.937504}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1967,7 +1973,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8029014303759082450, guid: 851bc6bfa64e79d46941a675d37c2cac, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 851bc6bfa64e79d46941a675d37c2cac, type: 3}

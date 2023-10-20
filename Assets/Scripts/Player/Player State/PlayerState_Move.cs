@@ -29,6 +29,9 @@ public class PlayerState_Move : PlayerState_Grounded
 
         if (!player.isGroundDetected())
             stateMachine.ChangeState(player.airState);
+
+        if (player.isDead)
+            stateMachine.ChangeState(player.deadState);
     }
 
     public override void Exit()

@@ -7,7 +7,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public int score;
+    [SerializeField] int score;
+    [SerializeField] int playerLifeAmount;
+
+    public bool gameOver;
 
     void Awake()
     {
@@ -17,15 +20,31 @@ public class GameManager : MonoBehaviour
             instance = this;
     }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
     public void IncreaseSocre(int _increaseAmount) => score += _increaseAmount;
+
+    public void IncreasePlayerLifeAmount()
+    {
+        if (playerLifeAmount >= 5)
+        {
+            playerLifeAmount = 5;
+            return;
+        }
+
+        if (playerLifeAmount < 5)
+            playerLifeAmount++;
+    }
+
+    public void DecreasePlayerLifeAmount()
+    {
+        playerLifeAmount--;
+
+        if (playerLifeAmount <= 0)
+            GameOver();
+    }
+
+    void GameOver()
+    {
+        gameOver = true;
+        Debug.Log("You lose");
+    }
 }

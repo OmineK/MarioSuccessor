@@ -24,6 +24,9 @@ public class PlayerState_Grounded : PlayerState
 
         if (Input.GetKeyDown(KeyCode.Space))
             stateMachine.ChangeState(player.jumpState);
+
+        if (player.isDead)
+            stateMachine.ChangeState(player.deadState);
     }
 
     public override void Exit()

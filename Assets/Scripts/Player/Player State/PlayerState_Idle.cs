@@ -24,6 +24,9 @@ public class PlayerState_Idle : PlayerState_Grounded
 
         if (xInput != 0)
             stateMachine.ChangeState(player.moveState);
+
+        if (player.isDead)
+            stateMachine.ChangeState(player.deadState);
     }
 
     public override void Exit()
