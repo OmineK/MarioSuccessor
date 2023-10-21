@@ -7,10 +7,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] int score;
     [SerializeField] int playerLifeAmount;
+    [SerializeField] float roundTime;
 
     public bool gameOver;
+
+    float roundTimeTimer;
+    int score;
+
+    UIManager ui;
 
     void Awake()
     {
@@ -20,7 +25,34 @@ public class GameManager : MonoBehaviour
             instance = this;
     }
 
-    public void IncreaseSocre(int _increaseAmount) => score += _increaseAmount;
+    void Start()
+    {
+        ui = UIManager.instance;
+
+        roundTimeTimer = roundTime;
+        ui.UpdateScoreUI(score);
+        ui.UpdateLifesLeftUI(playerLifeAmount);
+    }
+
+    void Update()
+    {
+        RoundTimer();
+    }
+
+    void RoundTimer()
+    {
+        if (roundTimeTimer >= 0)
+        {
+            roundTimeTimer -= Time.deltaTime;
+            ui.UpdateTimeLeftUI(roundTimeTimer);
+        }
+    }
+
+    public void IncreaseSocre(int _increaseAmount)
+    {
+        score += _increaseAmount;
+        ui.UpdateScoreUI(score);
+    }
 
     public void IncreasePlayerLifeAmount()
     {
@@ -32,11 +64,15 @@ public class GameManager : MonoBehaviour
 
         if (playerLifeAmount < 5)
             playerLifeAmount++;
+
+        ui.UpdateLifesLeftUI(playerLifeAmount);
     }
 
     public void DecreasePlayerLifeAmount()
     {
         playerLifeAmount--;
+
+        ui.UpdateLifesLeftUI(playerLifeAmount);
 
         if (playerLifeAmount <= 0)
             GameOver();
