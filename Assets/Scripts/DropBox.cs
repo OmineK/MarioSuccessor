@@ -10,10 +10,14 @@ public class DropBox : MonoBehaviour
     Vector3 startPos;
 
     Rigidbody2D rb;
+    SpriteRenderer sr;
+    ParticleSystem coinParticle;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+        coinParticle = GetComponentInChildren<ParticleSystem>();
     }
 
     void Start()
@@ -42,9 +46,15 @@ public class DropBox : MonoBehaviour
             hitsNumber--;
             GameManager.instance.IncreaseSocre(scoreIncreaseAmount);
             rb.velocity = Vector2.up * 3;
+            coinParticle.Play();
 
             if (hitsNumber <= 0)
-                Destroy(this.gameObject, 0.05f);
+            {
+                Invoke(nameof(DisableSpriteRenderer), 0.1f);
+                Destroy(this.gameObject, 0.6f);
+            }
         }
     }
+
+    void DisableSpriteRenderer() => sr.enabled = false;
 }
