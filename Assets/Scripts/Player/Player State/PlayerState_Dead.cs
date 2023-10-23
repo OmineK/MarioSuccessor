@@ -22,12 +22,15 @@ public class PlayerState_Dead : PlayerState
         {
             player.SetVelocity(0, 0);
             player.rb.isKinematic = true;
-        }
+        } 
     }
 
     public override void Update()
     {
         base.Update();
+
+        if (!player.isDead)
+            player.stateMachine.ChangeState(player.idleState);
     }
 
     public override void Exit()
