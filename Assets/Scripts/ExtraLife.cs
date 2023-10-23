@@ -35,7 +35,7 @@ public class ExtraLife : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (wallDetected() && canMove)
+        if (WallDetected() && canMove)
         {
             if (facingDir > 0 && facingRight || facingDir < 0 && !facingRight)
             {
@@ -45,7 +45,7 @@ public class ExtraLife : MonoBehaviour
         } 
 
         if (isAppear)
-            rb.velocity = new Vector3(rb.velocity.x, 1.5f);
+            rb.velocity = new Vector3(rb.velocity.x, 2f);
 
         if (canMove)
             rb.velocity = new Vector3(2.5f * facingDir, rb.velocity.y);
@@ -65,7 +65,7 @@ public class ExtraLife : MonoBehaviour
 
     void CanMove() => canMove = true;
 
-    bool wallDetected() => Physics2D.Raycast(transform.position, Vector3.right * facingDir, wallCheckDistance, whatIsGround);
+    bool WallDetected() => Physics2D.Raycast(transform.position, Vector3.right * facingDir, wallCheckDistance, whatIsGround);
 
     void OnDrawGizmos()
     {

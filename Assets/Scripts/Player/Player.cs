@@ -67,20 +67,12 @@ public class Player : Entity
         stateMachine.currentState.Update();
     }
 
-
-
     #region Collision
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         EnemyCollision(collision);
-
-        if (collision.gameObject.GetComponent<ExtraLife>() != null)
-        {
-            GameManager.instance.IncreasePlayerLifeAmount();
-            Destroy(collision.gameObject);
-        }
-
+        ExtraLifeCollision(collision);
     }
 
     void EnemyCollision(Collision2D collision)
@@ -103,6 +95,15 @@ public class Player : Entity
                 if (GameManager.instance.gameOver == false)
                     Invoke(nameof(RevivePlayer), 5f);
             }
+        }
+    }
+
+    void ExtraLifeCollision(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<ExtraLife>() != null)
+        {
+            GameManager.instance.IncreasePlayerLifeAmount();
+            Destroy(collision.gameObject);
         }
     }
 
