@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     void RoundTimer()
     {
-        if (roundTimeTimer >= 0)
+        if (roundTimeTimer >= 0 && !gameOver)
         {
             roundTimeTimer -= Time.deltaTime;
             ui.UpdateTimeLeftUI(roundTimeTimer);
