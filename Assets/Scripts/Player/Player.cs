@@ -73,6 +73,18 @@ public class Player : Entity
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        EnemyCollision(collision);
+
+        if (collision.gameObject.GetComponent<ExtraLife>() != null)
+        {
+            GameManager.instance.IncreasePlayerLifeAmount();
+            Destroy(collision.gameObject);
+        }
+
+    }
+
+    void EnemyCollision(Collision2D collision)
+    {
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {
             Enemy currentEnemy = collision.gameObject.GetComponent<Enemy>();
@@ -85,7 +97,7 @@ public class Player : Entity
                 SetVelocity(0, 10);
             }
             else
-            {   
+            {
                 PlayerDie();
 
                 if (GameManager.instance.gameOver == false)

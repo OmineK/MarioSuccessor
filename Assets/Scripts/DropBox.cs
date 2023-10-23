@@ -6,6 +6,9 @@ public class DropBox : MonoBehaviour
 {
     [SerializeField] int scoreIncreaseAmount;
     [SerializeField] int hitsNumber;
+    [SerializeField] GameObject extraDropPref;
+
+    bool extraDropIsDropped = false;
 
     Vector3 startPos;
 
@@ -44,9 +47,18 @@ public class DropBox : MonoBehaviour
         if (collision.gameObject.GetComponent<Player>() != null)
         {
             hitsNumber--;
-            GameManager.instance.IncreaseSocre(scoreIncreaseAmount);
             rb.velocity = Vector2.up * 3;
-            coinParticle.Play();
+
+            if (extraDropPref == null || extraDropIsDropped)
+            {
+                GameManager.instance.IncreaseSocre(scoreIncreaseAmount);
+                coinParticle.Play();
+            }
+            else
+            {
+                extraDropIsDropped = true;
+                Instantiate(extraDropPref, transform.position, Quaternion.identity);
+            }
 
             if (hitsNumber <= 0)
             {
