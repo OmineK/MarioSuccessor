@@ -20,13 +20,15 @@ public class PlayerState_Idle : PlayerState_Grounded
         base.Update();
 
         if (xInput == player.facingDir && player.isWallDetected())
+        {
+            Debug.Log(xInput);
+            Debug.Log(player.facingDir);
+
             return;
+        }
 
         if (xInput != 0)
             stateMachine.ChangeState(player.moveState);
-
-        if (player.isDead)
-            stateMachine.ChangeState(player.deadState);
     }
 
     public override void Exit()

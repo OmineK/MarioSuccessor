@@ -37,6 +37,9 @@ public class PlayerState
         yInput = Input.GetAxis("Vertical");
 
         player.anim.SetFloat("yVelocity", rb.velocity.y);
+
+        if (player.isDead && player.stateMachine.currentState != player.deadState)
+            stateMachine.ChangeState(player.deadState);
     }
 
     public virtual void Exit()

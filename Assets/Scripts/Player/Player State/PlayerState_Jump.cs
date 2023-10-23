@@ -28,9 +28,6 @@ public class PlayerState_Jump : PlayerState
 
         if (rb.velocity.y < 0)
             stateMachine.ChangeState(player.airState);
-
-        if (player.isDead)
-            stateMachine.ChangeState(player.deadState);
     }
 
     public override void Exit()

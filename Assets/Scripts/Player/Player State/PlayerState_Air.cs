@@ -31,9 +31,6 @@ public class PlayerState_Air : PlayerState
             else
                 stateMachine.ChangeState(player.moveState);
         }
-
-        if (player.isDead)
-            stateMachine.ChangeState(player.deadState);
     }
 
     public override void Exit()
