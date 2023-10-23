@@ -19,11 +19,10 @@ public class PlayerState_Idle : PlayerState_Grounded
     {
         base.Update();
 
-        if (xInput == player.facingDir && player.isWallDetected())
+        if (player.isWallDetected())
         {
-            Debug.Log(xInput);
-            Debug.Log(player.facingDir);
-
+            if (xInput > 0 && player.facingDir == 1 ||
+                xInput < 0 && player.facingDir == -1)
             return;
         }
 
