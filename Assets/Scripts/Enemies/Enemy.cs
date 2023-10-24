@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
@@ -14,7 +15,7 @@ public class Enemy : Entity
 
     public EnemyStateMachine stateMachine { get; private set; }
 
-    public bool isDead;
+    [NonSerialized] public bool isDead;
 
     CapsuleCollider2D capsuleCollider;
 
