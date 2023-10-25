@@ -128,12 +128,23 @@ public class Player : Entity
 
     void FindPositionToRevive()
     {
+        int lookingForNewPosAttempts = 10;
+        Vector3 startingPos = transform.position;
+
         transform.position = new Vector3(transform.position.x - 10f, transform.position.y + 4.5f);
 
-        while (SomethingIsAround() || !GroundBelow())
+        while (SomethingIsAround() && lookingForNewPosAttempts > 0 || 
+               !GroundBelow() && lookingForNewPosAttempts > 0)
         {
             float randomXoffset = UnityEngine.Random.Range(-4f, -1f);
             transform.position = new Vector3(transform.position.x + randomXoffset, transform.position.y);
+            lookingForNewPosAttempts--;
+        }
+
+        if (!GroundBelow() || SomethingIsAround())
+        {
+            transform.position = startingPos;
+            transform.position = new Vector3(transform.position.x - 2f, transform.position.y + 4.5f);
         }
 
         transform.position = new Vector3(transform.position.x, transform.position.y - GroundBelow().distance + (capsuleCollider.size.y / 2) + 0.2f);
