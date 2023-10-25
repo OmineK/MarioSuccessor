@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -12,10 +13,12 @@ public class Player : Entity
     public float jumpForce;
 
     [Header("Player collision info")]
+    [SerializeField] Transform secondGroundCheck;
+    [SerializeField] float secondGroundCheckDistance;
     [SerializeField] LayerMask whatIsEnemy;
     [SerializeField] Vector2 revivePositionCheck;
     [Space]
-    public bool isDead;
+    [NonSerialized] public bool isDead;
 
     CapsuleCollider2D capsuleCollider;
 
@@ -129,7 +132,7 @@ public class Player : Entity
 
         while (SomethingIsAround() || !GroundBelow())
         {
-            float randomXoffset = Random.Range(-4f, -1f);
+            float randomXoffset = UnityEngine.Random.Range(-4f, -1f);
             transform.position = new Vector3(transform.position.x + randomXoffset, transform.position.y);
         }
 
@@ -140,9 +143,13 @@ public class Player : Entity
 
     RaycastHit2D GroundBelow() => Physics2D.Raycast(transform.position, Vector2.down, 4, whatIsGround);
 
+    public bool isSecondGroundDetected() => Physics2D.Raycast(secondGroundCheck.position, Vector2.down, secondGroundCheckDistance, whatIsGround);
+
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
+
+        Gizmos.DrawLine(secondGroundCheck.position, new Vector2(secondGroundCheck.position.x, secondGroundCheck.position.y - secondGroundCheckDistance));
         Gizmos.DrawWireCube(transform.position, revivePositionCheck);
     }
 
