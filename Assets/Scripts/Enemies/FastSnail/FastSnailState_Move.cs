@@ -29,10 +29,8 @@ public class FastSnailState_Move : EnemyState
         base.Update();
 
         if (enemy.isDead)
-        {
             stateMachine.ChangeState(fastSnailEnemy.deadState);
-            return;
-        }
+
 
         if (enemy.isWallDetected() || !enemy.isGroundDetected())
             enemy.Flip();

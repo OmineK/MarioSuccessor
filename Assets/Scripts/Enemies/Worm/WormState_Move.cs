@@ -28,10 +28,7 @@ public class WormState_Move : EnemyState
         base.Update();
 
         if (enemy.isDead)
-        {
             stateMachine.ChangeState(wormEnemy.deadState);
-            return;
-        }
 
         if (enemy.isWallDetected() || !enemy.isGroundDetected())
             enemy.Flip();

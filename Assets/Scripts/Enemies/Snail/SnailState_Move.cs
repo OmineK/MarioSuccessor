@@ -28,10 +28,7 @@ public class SnailState_Move : EnemyState
         base.Update();
 
         if (enemy.isDead)
-        {
             stateMachine.ChangeState(snailEnemy.deadState);
-            return;
-        }
 
         if (enemy.isWallDetected() || !enemy.isGroundDetected())
             enemy.Flip();

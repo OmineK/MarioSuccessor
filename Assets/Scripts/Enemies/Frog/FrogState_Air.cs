@@ -25,6 +25,9 @@ public class FrogState_Air : EnemyState
     {
         base.Update();
 
+        if (enemy.isDead)
+            stateMachine.ChangeState(frogEnemy.deadState);
+
         if (enemy.isGroundDetected())
             stateMachine.ChangeState(frogEnemy.idleState);
     }
