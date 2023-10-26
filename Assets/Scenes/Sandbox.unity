@@ -299,7 +299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &172761301
 Transform:
   m_ObjectHideFlags: 0
@@ -861,6 +861,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  anim: {fileID: 0}
   moveSpeed: 4
   jumpForce: 12
   secondGroundCheck: {fileID: 1347121919}
@@ -869,6 +870,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   revivePositionCheck: {x: 1.5, y: 0.9}
+  friction: {fileID: 6200000, guid: 3634cf556e5419848852a270df7823dd, type: 2}
+  frictionless: {fileID: 6200000, guid: caaa49db45c9dea4193f7b22ab64923c, type: 2}
+  firstStage: {fileID: 172761300}
+  firstStageColliderOffset: {x: 0, y: 0}
+  firstStageColliderSize: {x: 0.8, y: 1.15}
+  isOnStage1: 0
+  secondStage: {fileID: 312194765}
+  secondStageColliderOffset: {x: 0, y: 0.11}
+  secondStageColliderSize: {x: 0.98, y: 1.36}
+  isOnStage2: 0
+  thirdStage: {fileID: 1188554048}
+  thirdStageColliderOffset: {x: 0, y: 0.11}
+  thirdStageColliderSize: {x: 0.98, y: 1.36}
+  isOnStage3: 1
 --- !u!50 &518608965
 Rigidbody2D:
   serializedVersion: 4
@@ -2647,7 +2662,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1188554049
 Transform:
   m_ObjectHideFlags: 0
@@ -4570,7 +4585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8735400909904112285, guid: 12275bb2a8595d9418eadab73f2819de, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8735400909904112286, guid: 12275bb2a8595d9418eadab73f2819de, type: 3}
       propertyPath: scoreValue

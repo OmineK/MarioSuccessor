@@ -11,6 +11,8 @@ public class PlayerState_Grounded : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        rb.sharedMaterial = player.friction;
     }
 
     public override void FixedUpdate()
@@ -29,5 +31,7 @@ public class PlayerState_Grounded : PlayerState
     public override void Exit()
     {
         base.Exit();
+
+        rb.sharedMaterial = player.frictionless;
     }
 }

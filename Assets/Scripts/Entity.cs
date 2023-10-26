@@ -13,10 +13,11 @@ public class Entity : MonoBehaviour
     [SerializeField] float wallCheckDistance;
     [SerializeField] protected LayerMask whatIsGround;
 
+    public Animator anim;
+
     public int facingDir { get; private set; } = 1;
 
     public Rigidbody2D rb { get; private set; }
-    public Animator anim { get; private set; }
 
     bool facingRight = true;
 

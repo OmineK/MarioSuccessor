@@ -20,6 +20,30 @@ public class Player : Entity
     [Space]
     [NonSerialized] public bool isDead;
 
+    [Header("Physic material info")]
+    public PhysicsMaterial2D friction;
+    public PhysicsMaterial2D frictionless;
+
+    [Header("Player stage 1 info")]
+    [SerializeField] GameObject firstStage;
+    [SerializeField] Vector2 firstStageColliderOffset;
+    [SerializeField] Vector2 firstStageColliderSize;
+    [SerializeField] bool isOnStage1;
+    [Space]
+
+    [Header("Player stage 2 info")]
+    [SerializeField] GameObject secondStage;
+    [SerializeField] Vector2 secondStageColliderOffset;
+    [SerializeField] Vector2 secondStageColliderSize;
+    [SerializeField] bool isOnStage2;
+    [Space]
+
+    [Header("Player stage 3 info")]
+    [SerializeField] GameObject thirdStage;
+    [SerializeField] Vector2 thirdStageColliderOffset;
+    [SerializeField] Vector2 thirdStageColliderSize;
+    [SerializeField] bool isOnStage3;
+
     CapsuleCollider2D capsuleCollider;
 
     #region Player states
@@ -70,6 +94,57 @@ public class Player : Entity
         stateMachine.currentState.Update();
     }
 
+    void SetFirstPlayerStage()
+    {
+        isOnStage1 = true;
+        isOnStage2 = false;
+        isOnStage3 = false;
+
+        secondStage.SetActive(false);
+        thirdStage.SetActive(false);
+
+        firstStage.SetActive(true);
+
+        anim = GetComponentInChildren<Animator>();
+
+        capsuleCollider.offset = firstStageColliderOffset;
+        capsuleCollider.size = firstStageColliderSize;
+    }
+
+    void SetSecondPlayerStage()
+    {
+        isOnStage1 = false;
+        isOnStage2 = true;
+        isOnStage3 = false;
+
+        firstStage.SetActive(false);
+        thirdStage.SetActive(false);
+
+        secondStage.SetActive(true);
+
+        anim = GetComponentInChildren<Animator>();
+
+        capsuleCollider.offset = secondStageColliderOffset;
+        capsuleCollider.size = secondStageColliderSize;
+    }
+
+    void SetThirdPlayerStage()
+    {
+        isOnStage1 = false;
+        isOnStage2 = false;
+        isOnStage3 = true;
+
+        firstStage.SetActive(false);
+        secondStage.SetActive(false);
+
+        thirdStage.SetActive(true);
+
+        anim = GetComponentInChildren<Animator>();
+
+        capsuleCollider.offset = thirdStageColliderOffset;
+        capsuleCollider.size = thirdStageColliderSize;
+    }
+
     #region Collision
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -93,10 +168,27 @@ public class Player : Entity
             }
             else
             {
-                PlayerDie();
+                if (isOnStage3)
+                {
+                    PushPlayerBackFromEnemy(currentEnemy);
 
-                if (GameManager.instance.gameOver == false)
-                    Invoke(nameof(RevivePlayer), 5f);
+                    SetSecondPlayerStage();
+                    currentEnemy.Flip();
+                }
+                else if (isOnStage2)
+                {
+                    PushPlayerBackFromEnemy(currentEnemy);
+
+                    SetFirstPlayerStage();
+                    currentEnemy.Flip();
+                }
+                else if (isOnStage1)
+                {
+                    PlayerDie();
+
+                    if (GameManager.instance.gameOver == false)
+                        Invoke(nameof(RevivePlayer), 5f);
+                }
             }
         }
     }
@@ -111,6 +203,15 @@ public class Player : Entity
     }
 
     bool isAboveEnemy() => Physics2D.Raycast(transform.position, Vector2.down, transform.localScale.y + 1, whatIsEnemy);
+
+    void PushPlayerBackFromEnemy(Enemy currentEnemy)
+    {
+        if (transform.position.x > currentEnemy.transform.position.x)
+            SetVelocity(2, 8);
+
+        if (transform.position.x < currentEnemy.transform.position.x)
+            SetVelocity(-2, 8);
+    }
 
     void PlayerDie()
     {
@@ -133,7 +234,7 @@ public class Player : Entity
 
         transform.position = new Vector3(transform.position.x - 10f, transform.position.y + 4.5f);
 
-        while (SomethingIsAround() && lookingForNewPosAttempts > 0 || 
+        while (SomethingIsAround() && lookingForNewPosAttempts > 0 ||
                !GroundBelow() && lookingForNewPosAttempts > 0)
         {
             float randomXoffset = UnityEngine.Random.Range(-4f, -1f);
