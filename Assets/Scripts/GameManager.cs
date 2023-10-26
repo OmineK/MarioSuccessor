@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] int playerLifeAmount;
     [SerializeField] float roundTime;
+
+    [Header("Current player stage info")]
+    public bool playerStage1;
+    public bool playerStage2;
+    public bool playerStage3;
 
     public bool gameOver;
 
@@ -76,6 +82,15 @@ public class GameManager : MonoBehaviour
 
         if (playerLifeAmount <= 0)
             GameOver();
+    }
+
+    public void UpdatePlayerCurrentStage(bool _stage1, bool _stage2, bool _stage3)
+    {
+        playerStage1 = _stage1;
+        playerStage2 = _stage2;
+        playerStage3 = _stage3;
+
+        ui.UpdateCurrentPlayerStageUI(_stage1, _stage2, _stage3);
     }
 
     void GameOver()

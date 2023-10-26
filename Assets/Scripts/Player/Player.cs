@@ -45,6 +45,7 @@ public class Player : Entity
     [SerializeField] bool isOnStage3;
 
     CapsuleCollider2D capsuleCollider;
+    GameManager gM;
 
     #region Player states
 
@@ -77,7 +78,10 @@ public class Player : Entity
     {
         base.Start();
 
+        gM = GameManager.instance;
+
         stateMachine.Initialize(idleState);
+        SetFirstPlayerStage();
     }
 
     protected override void FixedUpdate()
@@ -109,6 +113,8 @@ public class Player : Entity
 
         capsuleCollider.offset = firstStageColliderOffset;
         capsuleCollider.size = firstStageColliderSize;
+
+        gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
     }
 
     void SetSecondPlayerStage()
@@ -126,6 +132,8 @@ public class Player : Entity
 
         capsuleCollider.offset = secondStageColliderOffset;
         capsuleCollider.size = secondStageColliderSize;
+
+        gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
     }
 
     void SetThirdPlayerStage()
@@ -143,6 +151,8 @@ public class Player : Entity
 
         capsuleCollider.offset = thirdStageColliderOffset;
         capsuleCollider.size = thirdStageColliderSize;
+
+        gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
     }
 
     #region Collision
@@ -151,6 +161,7 @@ public class Player : Entity
     {
         EnemyCollision(collision);
         ExtraLifeCollision(collision);
+        StageUpDropCollision(collision);
     }
 
     void EnemyCollision(Collision2D collision)
@@ -161,7 +172,7 @@ public class Player : Entity
 
             if (isAboveEnemy())
             {
-                GameManager.instance.IncreaseSocre(currentEnemy.scoreValue);
+                gM.IncreaseSocre(currentEnemy.scoreValue);
                 currentEnemy.Die();
 
                 SetVelocity(0, 10);
@@ -186,7 +197,7 @@ public class Player : Entity
                 {
                     PlayerDie();
 
-                    if (GameManager.instance.gameOver == false)
+                    if (gM.gameOver == false)
                         Invoke(nameof(RevivePlayer), 5f);
                 }
             }
@@ -195,9 +206,24 @@ public class Player : Entity
 
     void ExtraLifeCollision(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<ExtraLife>() != null)
+        if (collision.gameObject.GetComponent<ExtraLifeDrop>() != null)
         {
-            GameManager.instance.IncreasePlayerLifeAmount();
+            gM.IncreasePlayerLifeAmount();
+            Destroy(collision.gameObject);
+        }
+    }
+
+    void StageUpDropCollision(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<DropEntity>() != null)
+        {
+            if (gM.playerStage1)
+                SetSecondPlayerStage();
+            else if (gM.playerStage2)
+                SetThirdPlayerStage();
+            else if (gM.playerStage3)
+                gM.IncreaseSocre(1000);
+
             Destroy(collision.gameObject);
         }
     }
@@ -215,7 +241,7 @@ public class Player : Entity
 
     void PlayerDie()
     {
-        GameManager.instance.DecreasePlayerLifeAmount();
+        gM.DecreasePlayerLifeAmount();
         capsuleCollider.isTrigger = true;
         isDead = true;
     }

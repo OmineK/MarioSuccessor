@@ -1,39 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class ExtraLife : MonoBehaviour
+public class DropEntity : MonoBehaviour
 {
+    [Header("Drop movement info")]
+    [SerializeField] float spawnSpeed;
+    [SerializeField] float moveSpeed;
+
     [SerializeField] float wallCheckDistance;
     [SerializeField] LayerMask whatIsGround;
 
-    int facingDir = 1;
+    protected int facingDir = 1;
 
-    bool facingRight;
-    bool isAppear;
-    bool canMove;
+    protected bool facingRight;
+    protected bool isAppear;
+    protected bool canMove;
 
-    Vector3 startPos;
+    protected Vector3 startPos;
 
-    CapsuleCollider2D capsCollider;
-    Rigidbody2D rb;
+    protected Rigidbody2D rb;
 
-    void Awake()
-    {
-        capsCollider = GetComponent<CapsuleCollider2D>();
+    protected virtual void Awake()
+    {  
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Start()
+    protected virtual void Start()
     {
-        capsCollider.enabled = false;
         startPos = transform.position;
         isAppear = true;
         facingRight = true;
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (WallDetected() && canMove)
         {
@@ -42,28 +42,22 @@ public class ExtraLife : MonoBehaviour
                 facingDir *= -1;
                 facingRight = !facingRight;
             }
-        } 
+        }
 
         if (isAppear)
-            rb.velocity = new Vector3(rb.velocity.x, 2f);
+            rb.velocity = new Vector3(rb.velocity.x, spawnSpeed);
 
         if (canMove)
-            rb.velocity = new Vector3(2.5f * facingDir, rb.velocity.y);
+            rb.velocity = new Vector3(moveSpeed * facingDir, rb.velocity.y);
     }
 
-    void Update()
+    protected virtual void Update()
     {
-        if (capsCollider.size.y + 0.2f < transform.position.y - startPos.y)
-        {
-            capsCollider.enabled = true;
-            isAppear = false;
-            rb.velocity = Vector2.zero;
-
-            Invoke(nameof(CanMove), 0.2f);
-        }
+        if (transform.position.y < -7)
+            Destroy(this.gameObject);
     }
 
-    void CanMove() => canMove = true;
+    protected void CanMove() => canMove = true;
 
     bool WallDetected() => Physics2D.Raycast(transform.position, Vector3.right * facingDir, wallCheckDistance, whatIsGround);
 
