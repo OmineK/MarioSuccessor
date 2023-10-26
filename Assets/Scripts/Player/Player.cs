@@ -184,14 +184,20 @@ public class Player : Entity
                     PushPlayerBackFromEnemy(currentEnemy);
 
                     SetSecondPlayerStage();
-                    currentEnemy.Flip();
+
+                    if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
+                        transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
+                        currentEnemy.Flip();
                 }
                 else if (isOnStage2)
                 {
                     PushPlayerBackFromEnemy(currentEnemy);
 
                     SetFirstPlayerStage();
-                    currentEnemy.Flip();
+
+                    if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
+                        transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
+                        currentEnemy.Flip();
                 }
                 else if (isOnStage1)
                 {
