@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8417852530398665800}
   - component: {fileID: 8417852530398665797}
   - component: {fileID: 8417852530398665796}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerStageUpDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
