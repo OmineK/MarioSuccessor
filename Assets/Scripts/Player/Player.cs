@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Windows;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class Player : Entity
 {
@@ -45,6 +43,12 @@ public class Player : Entity
     [SerializeField] Vector2 thirdStageColliderOffset;
     [SerializeField] Vector2 thirdStageColliderSize;
     [SerializeField] bool isOnStage3;
+
+    [Header("Fireball")]
+    [SerializeField] GameObject fireBallPref;
+    [SerializeField] float shootingSpeed;
+    float canShootTimer;
+    bool canShoot;
 
     CapsuleCollider2D capsuleCollider;
     GameManager gM;
@@ -102,8 +106,20 @@ public class Player : Entity
     protected override void Update()
     {
         base.Update();
+        CanShootTimer();
 
         stateMachine.currentState.Update();
+
+        if (isOnStage3 && canShoot && Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            GameObject fireBall = Instantiate(fireBallPref,
+                new Vector3(transform.position.x + (0.35f * facingDir), transform.position.y + 0.3f), Quaternion.identity);
+            
+            SetBallDirection(fireBall);
+
+            canShoot = false;
+            canShootTimer = shootingSpeed;
+        }
     }
 
     void SetFirstPlayerStage()
@@ -164,6 +180,25 @@ public class Player : Entity
         capsuleCollider.size = thirdStageColliderSize;
 
         gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
+    }
+
+    void CanShootTimer()
+    {
+        if (!canShoot)
+        {
+            canShootTimer -= Time.deltaTime;
+
+            if (canShootTimer < 0)
+                canShoot = true;
+        }
+    }
+
+    void SetBallDirection(GameObject fireBall)
+    {
+        if (facingDir == 1)
+            fireBall.GetComponent<Fireball>().facingDir = 1;
+        else if (facingDir == -1)
+            fireBall.GetComponent<Fireball>().facingDir = -1;
     }
 
     #region Collision

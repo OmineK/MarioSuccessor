@@ -299,7 +299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &172761301
 Transform:
   m_ObjectHideFlags: 0
@@ -879,7 +879,7 @@ MonoBehaviour:
   firstStage: {fileID: 172761300}
   firstStageColliderOffset: {x: 0, y: 0}
   firstStageColliderSize: {x: 0.8, y: 1.15}
-  isOnStage1: 0
+  isOnStage1: 1
   secondStage: {fileID: 312194765}
   secondStageColliderOffset: {x: 0, y: 0.11}
   secondStageColliderSize: {x: 0.98, y: 1.36}
@@ -887,7 +887,9 @@ MonoBehaviour:
   thirdStage: {fileID: 1188554048}
   thirdStageColliderOffset: {x: 0, y: 0.11}
   thirdStageColliderSize: {x: 0.98, y: 1.36}
-  isOnStage3: 1
+  isOnStage3: 0
+  fireBallPref: {fileID: 4171978645567872875, guid: 2e42a132ad5318a4dbbf12ecb0123f63, type: 3}
+  shootingSpeed: 0.7
 --- !u!50 &518608965
 Rigidbody2D:
   serializedVersion: 4
@@ -2769,7 +2771,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1188554049
 Transform:
   m_ObjectHideFlags: 0
