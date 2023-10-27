@@ -9,8 +9,10 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class Player : Entity
 {
     [Header("Movement info")]
-    public float moveSpeed;
+    [SerializeField] float normalMoveSpeed;
+    [SerializeField] float extraMoveSpeed;
     public float jumpForce;
+    [NonSerialized] public float currentMoveSpeed;
 
     [Header("Player collision info")]
     [SerializeField] Transform secondGroundCheck;
@@ -109,6 +111,7 @@ public class Player : Entity
 
         firstStage.SetActive(true);
 
+        currentMoveSpeed = normalMoveSpeed;
         anim = GetComponentInChildren<Animator>();
 
         capsuleCollider.offset = firstStageColliderOffset;
@@ -128,6 +131,7 @@ public class Player : Entity
 
         secondStage.SetActive(true);
 
+        currentMoveSpeed = extraMoveSpeed;
         anim = GetComponentInChildren<Animator>();
 
         capsuleCollider.offset = secondStageColliderOffset;
@@ -147,6 +151,7 @@ public class Player : Entity
 
         thirdStage.SetActive(true);
 
+        currentMoveSpeed = extraMoveSpeed;
         anim = GetComponentInChildren<Animator>();
 
         capsuleCollider.offset = thirdStageColliderOffset;

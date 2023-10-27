@@ -615,6 +615,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerLifeAmount: 2
   roundTime: 120
+  playerStage1: 0
+  playerStage2: 0
+  playerStage3: 0
   gameOver: 0
 --- !u!4 &309245573
 Transform:
@@ -862,8 +865,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   anim: {fileID: 0}
-  moveSpeed: 4
+  normalMoveSpeed: 4
+  extraMoveSpeed: 5
   jumpForce: 12
+  currentMoveSpeed: 0
   secondGroundCheck: {fileID: 1347121919}
   secondGroundCheckDistance: 0.15
   whatIsEnemy:

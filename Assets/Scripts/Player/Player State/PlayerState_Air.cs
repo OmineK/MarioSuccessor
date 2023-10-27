@@ -17,7 +17,7 @@ public class PlayerState_Air : PlayerState
     {
         base.FixedUpdate();
 
-        player.SetVelocity(player.moveSpeed * 0.8f * xInput, rb.velocity.y);
+        player.SetVelocity(player.currentMoveSpeed * 0.8f * xInput, rb.velocity.y);
     }
 
     public override void Update()
