@@ -14,7 +14,7 @@ TagManager:
   - Enemy
   - Player
   - Drops
-  - 
+  - Fireball
   - 
   - 
   - 
@@ -52,6 +52,9 @@ TagManager:
     locked: 0
   - name: Enemies
     uniqueID: 3099136425
+    locked: 0
+  - name: Fireball
+    uniqueID: 315839821
     locked: 0
   - name: Player
     uniqueID: 1831420741

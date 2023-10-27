@@ -83,7 +83,13 @@ public class Player : Entity
         gM = GameManager.instance;
 
         stateMachine.Initialize(idleState);
-        SetFirstPlayerStage();
+
+        if (isOnStage1)
+            SetFirstPlayerStage();
+        else if (isOnStage2)
+            SetSecondPlayerStage();
+        else if (isOnStage3)
+            SetThirdPlayerStage();
     }
 
     protected override void FixedUpdate()

@@ -299,7 +299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &172761301
 Transform:
   m_ObjectHideFlags: 0
@@ -354,7 +354,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1831420741
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8846c41ca88afa24b8c3d58e22070643, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -727,7 +727,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1831420741
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: fa76f1b092f9f114c8640e12ed294848, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -868,7 +868,6 @@ MonoBehaviour:
   normalMoveSpeed: 4
   extraMoveSpeed: 5
   jumpForce: 12
-  currentMoveSpeed: 0
   secondGroundCheck: {fileID: 1347121919}
   secondGroundCheckDistance: 0.15
   whatIsEnemy:
@@ -880,7 +879,7 @@ MonoBehaviour:
   firstStage: {fileID: 172761300}
   firstStageColliderOffset: {x: 0, y: 0}
   firstStageColliderSize: {x: 0.8, y: 1.15}
-  isOnStage1: 1
+  isOnStage1: 0
   secondStage: {fileID: 312194765}
   secondStageColliderOffset: {x: 0, y: 0.11}
   secondStageColliderSize: {x: 0.98, y: 1.36}
@@ -888,7 +887,7 @@ MonoBehaviour:
   thirdStage: {fileID: 1188554048}
   thirdStageColliderOffset: {x: 0, y: 0.11}
   thirdStageColliderSize: {x: 0.98, y: 1.36}
-  isOnStage3: 0
+  isOnStage3: 1
 --- !u!50 &518608965
 Rigidbody2D:
   serializedVersion: 4
@@ -2770,7 +2769,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1188554049
 Transform:
   m_ObjectHideFlags: 0
