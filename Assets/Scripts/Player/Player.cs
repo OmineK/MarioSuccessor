@@ -9,8 +9,10 @@ public class Player : Entity
     [Header("Movement info")]
     [SerializeField] float normalMoveSpeed;
     [SerializeField] float extraMoveSpeed;
-    public float jumpForce;
+    [SerializeField] float normalJumpForce;
+    [SerializeField] float extraJumpForce;
     [NonSerialized] public float currentMoveSpeed;
+    [NonSerialized] public float currentJumpForce;
 
     [Header("Player collision info")]
     [SerializeField] Transform secondGroundCheck;
@@ -134,6 +136,7 @@ public class Player : Entity
         firstStage.SetActive(true);
 
         currentMoveSpeed = normalMoveSpeed;
+        currentJumpForce = normalJumpForce;
         anim = GetComponentInChildren<Animator>();
 
         capsuleCollider.offset = firstStageColliderOffset;
@@ -154,6 +157,7 @@ public class Player : Entity
         secondStage.SetActive(true);
 
         currentMoveSpeed = extraMoveSpeed;
+        currentJumpForce = extraJumpForce;
         anim = GetComponentInChildren<Animator>();
 
         capsuleCollider.offset = secondStageColliderOffset;
@@ -174,6 +178,7 @@ public class Player : Entity
         thirdStage.SetActive(true);
 
         currentMoveSpeed = extraMoveSpeed;
+        currentJumpForce = extraJumpForce;
         anim = GetComponentInChildren<Animator>();
 
         capsuleCollider.offset = thirdStageColliderOffset;

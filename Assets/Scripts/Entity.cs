@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -13,7 +14,7 @@ public class Entity : MonoBehaviour
     [SerializeField] float wallCheckDistance;
     [SerializeField] protected LayerMask whatIsGround;
 
-    public Animator anim;
+    [NonSerialized] public Animator anim;
 
     public int facingDir { get; private set; } = 1;
 
