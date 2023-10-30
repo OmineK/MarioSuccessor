@@ -214,6 +214,7 @@ public class Player : Entity
         ExtraLifeCollision(collision);
         StageUpDropCollision(collision);
         SpringboardCollision(collision);
+        CoinCollision(collision);
     }
 
     void EnemyCollision(Collision2D collision)
@@ -305,6 +306,17 @@ public class Player : Entity
                 else if (isOnStage2 || isOnStage3)
                     SetVelocity(rb.velocity.x, springboard.playerStage2and3PushForce);
             }
+        }
+    }
+
+    void CoinCollision(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Coin>() != null)
+        {
+            Coin coin = collision.gameObject.GetComponent<Coin>();
+
+            gM.IncreaseSocre(coin.scoreValue);
+            Destroy(collision.gameObject);
         }
     }
 

@@ -35,8 +35,6 @@ public class BarnacleState_Dead : EnemyState
         base.Update();
 
         deadStateTimer -= Time.deltaTime;
-
-        Debug.Log(deadStateTimer);
     }
 
     public override void Exit()
