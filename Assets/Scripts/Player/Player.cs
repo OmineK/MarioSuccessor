@@ -214,7 +214,11 @@ public class Player : Entity
         ExtraLifeCollision(collision);
         StageUpDropCollision(collision);
         SpringboardCollision(collision);
-        CoinCollision(collision);
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        CoinTriggerCollision(collision);
     }
 
     void EnemyCollision(Collision2D collision)
@@ -309,7 +313,7 @@ public class Player : Entity
         }
     }
 
-    void CoinCollision(Collision2D collision)
+    void CoinTriggerCollision(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<Coin>() != null)
         {
