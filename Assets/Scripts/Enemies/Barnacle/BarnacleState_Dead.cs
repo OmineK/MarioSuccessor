@@ -6,6 +6,8 @@ public class BarnacleState_Dead : EnemyState
 {
     Barnacle barnacleEnemy;
 
+    float deadStateTimer;
+
     public BarnacleState_Dead(Enemy _enemy, EnemyStateMachine _stateMachine, string _animBoolName, Barnacle _barnacleEnemy) : base(_enemy, _stateMachine, _animBoolName)
     {
         this.barnacleEnemy = _barnacleEnemy;
@@ -14,16 +16,27 @@ public class BarnacleState_Dead : EnemyState
     public override void Enter()
     {
         base.Enter();
+        deadStateTimer = 1.6f;
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+
+        if (deadStateTimer < 0f)
+        {
+            if (!barnacleEnemy.isHidden())
+                enemy.SetVelocity(rb.velocity.x, -2f);
+        }
     }
 
     public override void Update()
     {
         base.Update();
+
+        deadStateTimer -= Time.deltaTime;
+
+        Debug.Log(deadStateTimer);
     }
 
     public override void Exit()

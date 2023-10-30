@@ -42,6 +42,15 @@ public class Barnacle : Enemy
     protected override void Update()
     {
         base.Update();
+
+        if (isHidden() && isDead == true)
+            Destroy(this.gameObject);
+    }
+
+    public override void Die()
+    {
+        isDead = true;
+        stateMachine.ChangeState(deadState);
     }
 
     public override bool isGroundDetected() => Physics2D.Raycast(transform.position, Vector2.down, (cd.size.y / 2) - 0.02f, whatIsGround);

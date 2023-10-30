@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8021538716708325968}
   - component: {fileID: 8021538716708325970}
   - component: {fileID: 8021538716708325969}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy_Barnacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,9 +209,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1259425301
-  m_SortingLayer: -1
-  m_SortingOrder: -11
+  m_SortingLayerID: -1056888885
+  m_SortingLayer: -2
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 3e01fba9d8c86104ab5575d2e453a326, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

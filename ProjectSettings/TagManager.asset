@@ -15,8 +15,8 @@ TagManager:
   - Player
   - Drops
   - Fireball
-  - 
-  - 
+  - Springboard
+  - BarnacleEnemy
   - 
   - 
   - 
@@ -40,6 +40,9 @@ TagManager:
   m_SortingLayers:
   - name: Background
     uniqueID: 3907557041
+    locked: 0
+  - name: Springboard
+    uniqueID: 3074172285
     locked: 0
   - name: Ground enemies
     uniqueID: 3238078411

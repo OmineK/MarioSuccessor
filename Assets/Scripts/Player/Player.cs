@@ -116,7 +116,7 @@ public class Player : Entity
         {
             GameObject fireBall = Instantiate(fireBallPref,
                 new Vector3(transform.position.x + (0.35f * facingDir), transform.position.y + 0.3f), Quaternion.identity);
-            
+
             SetBallDirection(fireBall);
 
             canShoot = false;
@@ -213,6 +213,7 @@ public class Player : Entity
         EnemyCollision(collision);
         ExtraLifeCollision(collision);
         StageUpDropCollision(collision);
+        SpringboardCollision(collision);
     }
 
     void EnemyCollision(Collision2D collision)
@@ -220,6 +221,8 @@ public class Player : Entity
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {
             Enemy currentEnemy = collision.gameObject.GetComponent<Enemy>();
+
+            if (currentEnemy.isDead == true) { return; }
 
             if (leftLegIsAboveEnemy() || rightLegIsAboveEnemy())
             {
@@ -282,6 +285,26 @@ public class Player : Entity
                 gM.IncreaseSocre(1000);
 
             Destroy(collision.gameObject);
+        }
+    }
+
+    void SpringboardCollision(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Springboard>() != null)
+        {
+            Springboard springboard = collision.gameObject.GetComponent<Springboard>();
+
+            float lowestPointOfPlayerPos = transform.position.y - (capsuleCollider.size.y / 2);
+
+            if (lowestPointOfPlayerPos + 0.1f > springboard.transform.position.y - 0.2f)
+            {
+                springboard.anim.SetTrigger("Jump");
+
+                if (isOnStage1)
+                    SetVelocity(rb.velocity.x, springboard.playerStage1PushForce);
+                else if (isOnStage2 || isOnStage3)
+                    SetVelocity(rb.velocity.x, springboard.playerStage2and3PushForce);
+            }
         }
     }
 

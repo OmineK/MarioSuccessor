@@ -262,3 +262,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   moveSpeed: 2
+  scoreValue: 50
