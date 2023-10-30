@@ -221,7 +221,7 @@ public class Player : Entity
         {
             Enemy currentEnemy = collision.gameObject.GetComponent<Enemy>();
 
-            if (isAboveEnemy())
+            if (leftLegIsAboveEnemy() || rightLegIsAboveEnemy())
             {
                 gM.IncreaseSocre(currentEnemy.scoreValue);
                 currentEnemy.Die();
@@ -285,7 +285,9 @@ public class Player : Entity
         }
     }
 
-    bool isAboveEnemy() => Physics2D.Raycast(transform.position, Vector2.down, transform.localScale.y + 1, whatIsEnemy);
+    bool leftLegIsAboveEnemy() => Physics2D.Raycast(groundCheck.position, Vector2.down, 0.4f, whatIsEnemy);
+
+    bool rightLegIsAboveEnemy() => Physics2D.Raycast(secondGroundCheck.position, Vector2.down, 0.4f, whatIsEnemy);
 
     void PushPlayerBackFromEnemy(Enemy currentEnemy)
     {

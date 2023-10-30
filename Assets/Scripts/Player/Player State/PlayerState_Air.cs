@@ -11,6 +11,7 @@ public class PlayerState_Air : PlayerState
     public override void Enter()
     {
         base.Enter();
+        rb.gravityScale = 4f;
     }
 
     public override void FixedUpdate()
@@ -36,5 +37,6 @@ public class PlayerState_Air : PlayerState
     public override void Exit()
     {
         base.Exit();
+        rb.gravityScale = 2f;
     }
 }

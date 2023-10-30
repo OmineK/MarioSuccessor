@@ -8,7 +8,7 @@ public class Entity : MonoBehaviour
 {
 
     [Header("Collision info")]
-    [SerializeField] Transform groundCheck;
+    public Transform groundCheck;
     [SerializeField] float groundCheckDistance;
     [SerializeField] Transform wallCheck;
     [SerializeField] float wallCheckDistance;
