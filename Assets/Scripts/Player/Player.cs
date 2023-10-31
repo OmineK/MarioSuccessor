@@ -46,11 +46,13 @@ public class Player : Entity
     [SerializeField] Vector2 thirdStageColliderSize;
     [SerializeField] bool isOnStage3;
 
-    [Header("Fireball")]
+    [Header("Fireball info")]
     [SerializeField] GameObject fireBallPref;
     [SerializeField] float shootingSpeed;
     float canShootTimer;
     bool canShoot;
+
+    public Transform defaultParent;
 
     CapsuleCollider2D capsuleCollider;
     GameManager gM;
@@ -86,8 +88,8 @@ public class Player : Entity
     {
         base.Start();
 
+        defaultParent = transform.parent;
         gM = GameManager.instance;
-
         stateMachine.Initialize(idleState);
 
         if (isOnStage1)
@@ -214,6 +216,24 @@ public class Player : Entity
         ExtraLifeCollision(collision);
         StageUpDropCollision(collision);
         SpringboardCollision(collision);
+        MovablePlatformCollision(collision);
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Platform>() != null)
+        {
+            if (transform.parent == defaultParent) { return; }
+
+            Platform platform = collision.gameObject.GetComponent<Platform>();
+            transform.parent = defaultParent;
+            rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+
+            if (isOnStage1)
+                currentMoveSpeed = normalMoveSpeed;
+            else if (isOnStage2 || isOnStage3)
+                currentMoveSpeed = extraMoveSpeed;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -309,6 +329,21 @@ public class Player : Entity
                     SetVelocity(rb.velocity.x, springboard.playerStage1PushForce);
                 else if (isOnStage2 || isOnStage3)
                     SetVelocity(rb.velocity.x, springboard.playerStage2and3PushForce);
+            }
+        }
+    }
+
+    void MovablePlatformCollision(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Platform>() != null)
+        {
+            Platform platform = collision.gameObject.GetComponent<Platform>();
+
+            if (platform.transform.position.y < transform.position.y - (capsuleCollider.size.y / 2) + 0.1f)
+            {
+                transform.parent = platform.transform;
+                rb.interpolation = RigidbodyInterpolation2D.Extrapolate;
+                currentMoveSpeed *= 0.75f;
             }
         }
     }

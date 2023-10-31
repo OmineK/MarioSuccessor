@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerState_Jump : PlayerState
 {
+    float jumpStateTimer;
+
     public PlayerState_Jump(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
     }
@@ -11,6 +11,7 @@ public class PlayerState_Jump : PlayerState
     public override void Enter()
     {
         base.Enter();
+        jumpStateTimer = 0.5f;
 
         player.SetVelocity(rb.velocity.x, player.currentJumpForce);
     }
@@ -25,6 +26,14 @@ public class PlayerState_Jump : PlayerState
     public override void Update()
     {
         base.Update();
+
+        jumpStateTimer -= Time.deltaTime;
+
+        if (jumpStateTimer < 0)
+        {
+            if (player.isGroundDetected() || player.isSecondGroundDetected())
+                stateMachine.ChangeState(player.idleState);
+        }
 
         if (rb.velocity.y < 0)
             stateMachine.ChangeState(player.airState);

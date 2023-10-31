@@ -23,7 +23,7 @@ public class PlayerState_Idle : PlayerState_Grounded
         {
             if (xInput > 0 && player.facingDir == 1 ||
                 xInput < 0 && player.facingDir == -1)
-            return;
+                return;
         }
 
         if (xInput != 0)
