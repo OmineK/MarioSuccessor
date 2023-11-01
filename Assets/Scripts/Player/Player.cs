@@ -124,7 +124,7 @@ public class Player : Entity
 
         stateMachine.currentState.Update();
 
-        if (isOnStage3 && canShoot && Input.GetKeyDown(KeyCode.LeftAlt))
+        if (isOnStage3 && canShoot && Input.GetKeyDown(KeyCode.Z))
         {
             GameObject fireBall = Instantiate(fireBallPref,
                 new Vector3(transform.position.x + (0.35f * facingDir), transform.position.y + 0.3f), Quaternion.identity);
