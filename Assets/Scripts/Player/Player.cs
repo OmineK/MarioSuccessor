@@ -46,15 +46,24 @@ public class Player : Entity
     [SerializeField] Vector2 thirdStageColliderSize;
     [SerializeField] bool isOnStage3;
 
+    [Header("White blink FX && Player immortality")]
+    [SerializeField] Material changedMat;
+    [SerializeField] float immortalTime;
+    Material originalMat;
+    bool isImmortal;
+    float immortalTimer;
+
     [Header("Fireball info")]
     [SerializeField] GameObject fireBallPref;
     [SerializeField] float shootingSpeed;
     float canShootTimer;
     bool canShoot;
+    [Space]
 
     public Transform defaultParent;
 
     CapsuleCollider2D capsuleCollider;
+    SpriteRenderer sr;
     GameManager gM;
 
     #region Player states
@@ -111,6 +120,7 @@ public class Player : Entity
     {
         base.Update();
         CanShootTimer();
+        ImmortalityTimer();
 
         stateMachine.currentState.Update();
 
@@ -139,12 +149,19 @@ public class Player : Entity
 
         currentMoveSpeed = normalMoveSpeed;
         currentJumpForce = normalJumpForce;
+        sr = GetComponentInChildren<SpriteRenderer>();
         anim = GetComponentInChildren<Animator>();
+
+        originalMat = sr.material;
 
         capsuleCollider.offset = firstStageColliderOffset;
         capsuleCollider.size = firstStageColliderSize;
 
         gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
+
+        InvokeRepeating(nameof(WhiteBlinkFX), 0, 0.2f);
+        immortalTimer = immortalTime;
+        isImmortal = true;
     }
 
     void SetSecondPlayerStage()
@@ -160,12 +177,19 @@ public class Player : Entity
 
         currentMoveSpeed = extraMoveSpeed;
         currentJumpForce = extraJumpForce;
+        sr = GetComponentInChildren<SpriteRenderer>();
         anim = GetComponentInChildren<Animator>();
+
+        originalMat = sr.material;
 
         capsuleCollider.offset = secondStageColliderOffset;
         capsuleCollider.size = secondStageColliderSize;
 
         gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
+
+        InvokeRepeating(nameof(WhiteBlinkFX), 0, 0.2f);
+        immortalTimer = immortalTime;
+        isImmortal = true;
     }
 
     void SetThirdPlayerStage()
@@ -181,12 +205,19 @@ public class Player : Entity
 
         currentMoveSpeed = extraMoveSpeed;
         currentJumpForce = extraJumpForce;
+        sr = GetComponentInChildren<SpriteRenderer>();
         anim = GetComponentInChildren<Animator>();
+
+        originalMat = sr.material;
 
         capsuleCollider.offset = thirdStageColliderOffset;
         capsuleCollider.size = thirdStageColliderSize;
 
         gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
+
+        InvokeRepeating(nameof(WhiteBlinkFX), 0, 0.2f);
+        immortalTimer = immortalTime;
+        isImmortal = true;
     }
 
     void CanShootTimer()
@@ -200,12 +231,35 @@ public class Player : Entity
         }
     }
 
+    void ImmortalityTimer()
+    {
+        if (isImmortal)
+        {
+            immortalTimer -= Time.deltaTime;
+
+            if (immortalTimer < 0)
+            {
+                CancelInvoke(nameof(WhiteBlinkFX));
+                isImmortal = false;
+                sr.material = originalMat;
+            }
+        }
+    }
+
     void SetBallDirection(GameObject fireBall)
     {
         if (facingDir == 1)
             fireBall.GetComponent<Fireball>().facingDir = 1;
         else if (facingDir == -1)
             fireBall.GetComponent<Fireball>().facingDir = -1;
+    }
+
+    void WhiteBlinkFX()
+    {
+        if (sr.material == originalMat)
+            sr.material = changedMat;
+        else
+            sr.material = originalMat;
     }
 
     #region Collision

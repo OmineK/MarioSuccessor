@@ -1099,7 +1099,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518608962}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.94, y: -2.68, z: 0}
+  m_LocalPosition: {x: -19.92, y: -2.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1155,6 +1155,8 @@ MonoBehaviour:
   thirdStageColliderOffset: {x: 0, y: 0.11}
   thirdStageColliderSize: {x: 0.98, y: 1.36}
   isOnStage3: 0
+  changedMat: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+  immortalTime: 2
   fireBallPref: {fileID: 4171978645567872875, guid: 2e42a132ad5318a4dbbf12ecb0123f63, type: 3}
   shootingSpeed: 0.7
   defaultParent: {fileID: 0}
@@ -1273,7 +1275,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 25.168894, y: 0.20236546, z: -9.937504}
+  m_LocalPosition: {x: -17.691107, y: 0.20236546, z: -9.937504}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5647,7 +5649,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036932988}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 25.168894, y: 0.20236546, z: -9.937504}
+  m_LocalPosition: {x: -17.691107, y: 0.20236546, z: -9.937504}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
