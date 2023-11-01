@@ -102,11 +102,11 @@ public class Player : Entity
         stateMachine.Initialize(idleState);
 
         if (isOnStage1)
-            SetFirstPlayerStage();
+            SetFirstPlayerStage(0);
         else if (isOnStage2)
-            SetSecondPlayerStage();
+            SetSecondPlayerStage(0);
         else if (isOnStage3)
-            SetThirdPlayerStage();
+            SetThirdPlayerStage(0);
     }
 
     protected override void FixedUpdate()
@@ -136,7 +136,7 @@ public class Player : Entity
         }
     }
 
-    void SetFirstPlayerStage()
+    void SetFirstPlayerStage(float _immortalTime)
     {
         isOnStage1 = true;
         isOnStage2 = false;
@@ -160,11 +160,11 @@ public class Player : Entity
         gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
 
         InvokeRepeating(nameof(WhiteBlinkFX), 0, 0.2f);
-        immortalTimer = immortalTime;
+        immortalTimer = _immortalTime;
         isImmortal = true;
     }
 
-    void SetSecondPlayerStage()
+    void SetSecondPlayerStage(float _immortalTime)
     {
         isOnStage1 = false;
         isOnStage2 = true;
@@ -188,11 +188,11 @@ public class Player : Entity
         gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
 
         InvokeRepeating(nameof(WhiteBlinkFX), 0, 0.2f);
-        immortalTimer = immortalTime;
+        immortalTimer = _immortalTime;
         isImmortal = true;
     }
 
-    void SetThirdPlayerStage()
+    void SetThirdPlayerStage(float _immortalTime)
     {
         isOnStage1 = false;
         isOnStage2 = false;
@@ -216,7 +216,7 @@ public class Player : Entity
         gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
 
         InvokeRepeating(nameof(WhiteBlinkFX), 0, 0.2f);
-        immortalTimer = immortalTime;
+        immortalTimer = _immortalTime;
         isImmortal = true;
     }
 
@@ -322,7 +322,7 @@ public class Player : Entity
                 {
                     PushPlayerBackFromEnemy(currentEnemy);
 
-                    SetSecondPlayerStage();
+                    SetSecondPlayerStage(immortalTime);
 
                     if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
                         transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
@@ -332,7 +332,7 @@ public class Player : Entity
                 {
                     PushPlayerBackFromEnemy(currentEnemy);
 
-                    SetFirstPlayerStage();
+                    SetFirstPlayerStage(immortalTime);
 
                     if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
                         transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
@@ -363,9 +363,9 @@ public class Player : Entity
         if (collision.gameObject.GetComponent<DropEntity>() != null)
         {
             if (gM.playerStage1)
-                SetSecondPlayerStage();
+                SetSecondPlayerStage(immortalTime);
             else if (gM.playerStage2)
-                SetThirdPlayerStage();
+                SetThirdPlayerStage(immortalTime);
             else if (gM.playerStage3)
                 gM.IncreaseSocre(1000);
 
@@ -444,7 +444,7 @@ public class Player : Entity
         FindPositionToRevive();
         capsuleCollider.isTrigger = false;
         isDead = false;
-        SetFirstPlayerStage();
+        SetFirstPlayerStage(immortalTime * 2);
     }
 
     void FindPositionToRevive()
