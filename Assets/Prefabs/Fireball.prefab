@@ -148,6 +148,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  fireballExplosionPref: {fileID: 2631193805019648914, guid: ce5bd13ffb686304aa09f54e7f354382, type: 3}
 --- !u!1 &5426582684634287919
 GameObject:
   m_ObjectHideFlags: 0

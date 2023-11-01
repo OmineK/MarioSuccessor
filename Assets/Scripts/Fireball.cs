@@ -18,6 +18,9 @@ public class Fireball : MonoBehaviour
     [SerializeField] float wallCheckDistance;
     [SerializeField] LayerMask whatIsGround;
 
+    [Header("Explosion")]
+    [SerializeField] GameObject fireballExplosionPref;
+
     [NonSerialized] public float facingDir = 1;
 
     float lifeTimer;
@@ -66,13 +69,20 @@ public class Fireball : MonoBehaviour
         jump = true;
 
         if (WallDetected() || WallDetected2() || WallDetected3())
+        {
+            GameObject explosion = Instantiate(fireballExplosionPref, transform.position, Quaternion.identity);
+            Destroy(explosion.gameObject, 0.5f);
             Destroy(this.gameObject);
+        }
 
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {
             Enemy currentEnemy = collision.gameObject.GetComponent<Enemy>();
             GameManager.instance.IncreaseSocre(currentEnemy.scoreValue / 2);
             currentEnemy.Die();
+
+            GameObject explosion = Instantiate(fireballExplosionPref, transform.position, Quaternion.identity);
+            Destroy(explosion.gameObject, 0.5f);
             Destroy(this.gameObject);
         }
     }
