@@ -1156,7 +1156,7 @@ MonoBehaviour:
   thirdStageColliderSize: {x: 0.98, y: 1.36}
   isOnStage3: 0
   changedMat: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
-  immortalTime: 2
+  immortalTime: 1.6
   fireBallPref: {fileID: 4171978645567872875, guid: 2e42a132ad5318a4dbbf12ecb0123f63, type: 3}
   shootingSpeed: 0.7
   defaultParent: {fileID: 0}

@@ -312,6 +312,12 @@ public class Player : Entity
             }
             else
             {
+                if (isImmortal) 
+                {
+                    currentEnemy.Flip();
+                    return; 
+                }
+
                 if (isOnStage3)
                 {
                     PushPlayerBackFromEnemy(currentEnemy);
@@ -438,6 +444,7 @@ public class Player : Entity
         FindPositionToRevive();
         capsuleCollider.isTrigger = false;
         isDead = false;
+        SetFirstPlayerStage();
     }
 
     void FindPositionToRevive()
