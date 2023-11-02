@@ -48,10 +48,16 @@ public class Player : Entity
 
     [Header("White blink FX && Player immortality")]
     [SerializeField] Material changedMat;
-    [SerializeField] float immortalTime;
     Material originalMat;
     bool isImmortal;
-    float immortalTimer;
+
+    [Header("Freeze timer info")]
+    [SerializeField] float freezeTimeOnDropCatch;
+    [SerializeField] float freezeTimeOnEnemyCollision;
+    [SerializeField] float freezeTimeAfterRevive;
+    [NonSerialized] public bool canMove;
+    float freezeTimer;
+    float canMoveTimer;
 
     [Header("Fireball info")]
     [SerializeField] GameObject fireBallPref;
@@ -59,6 +65,7 @@ public class Player : Entity
     float canShootTimer;
     bool canShoot;
     [Space]
+
 
     public Transform defaultParent;
 
@@ -107,6 +114,8 @@ public class Player : Entity
             SetSecondPlayerStage(0);
         else if (isOnStage3)
             SetThirdPlayerStage(0);
+
+        canMove = true;
     }
 
     protected override void FixedUpdate()
@@ -124,7 +133,7 @@ public class Player : Entity
 
         stateMachine.currentState.Update();
 
-        if (isOnStage3 && canShoot && Input.GetKeyDown(KeyCode.Z))
+        if (isOnStage3 && canShoot && Input.GetKeyDown(KeyCode.Z) && canMove)
         {
             GameObject fireBall = Instantiate(fireBallPref,
                 new Vector3(transform.position.x + (0.35f * facingDir), transform.position.y + 0.3f), Quaternion.identity);
@@ -136,7 +145,7 @@ public class Player : Entity
         }
     }
 
-    void SetFirstPlayerStage(float _immortalTime)
+    void SetFirstPlayerStage(float _freezeTime)
     {
         isOnStage1 = true;
         isOnStage2 = false;
@@ -159,12 +168,10 @@ public class Player : Entity
 
         gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
 
-        InvokeRepeating(nameof(WhiteBlinkFX), 0, 0.2f);
-        immortalTimer = _immortalTime;
-        isImmortal = true;
+        SetImmortalToPlayer(_freezeTime);
     }
 
-    void SetSecondPlayerStage(float _immortalTime)
+    void SetSecondPlayerStage(float _freezeTime)
     {
         isOnStage1 = false;
         isOnStage2 = true;
@@ -187,12 +194,10 @@ public class Player : Entity
 
         gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
 
-        InvokeRepeating(nameof(WhiteBlinkFX), 0, 0.2f);
-        immortalTimer = _immortalTime;
-        isImmortal = true;
+        SetImmortalToPlayer(_freezeTime);
     }
 
-    void SetThirdPlayerStage(float _immortalTime)
+    void SetThirdPlayerStage(float _freezeTime)
     {
         isOnStage1 = false;
         isOnStage2 = false;
@@ -215,9 +220,16 @@ public class Player : Entity
 
         gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
 
+        SetImmortalToPlayer(_freezeTime);
+    }
+
+    void SetImmortalToPlayer(float _freezeTime)
+    {
         InvokeRepeating(nameof(WhiteBlinkFX), 0, 0.2f);
-        immortalTimer = _immortalTime;
+        freezeTimer = _freezeTime;
+        canMoveTimer = _freezeTime * 0.8f;
         isImmortal = true;
+        canMove = false;
     }
 
     void CanShootTimer()
@@ -235,9 +247,13 @@ public class Player : Entity
     {
         if (isImmortal)
         {
-            immortalTimer -= Time.deltaTime;
+            freezeTimer -= Time.deltaTime;
+            canMoveTimer -= Time.deltaTime;
 
-            if (immortalTimer < 0)
+            if (canMoveTimer < 0)
+                canMove = true;
+
+            if (freezeTimer < 0)
             {
                 CancelInvoke(nameof(WhiteBlinkFX));
                 isImmortal = false;
@@ -312,17 +328,17 @@ public class Player : Entity
             }
             else
             {
-                if (isImmortal) 
+                if (isImmortal)
                 {
                     currentEnemy.Flip();
-                    return; 
+                    return;
                 }
 
                 if (isOnStage3)
                 {
                     PushPlayerBackFromEnemy(currentEnemy);
 
-                    SetSecondPlayerStage(immortalTime);
+                    SetSecondPlayerStage(freezeTimeOnEnemyCollision);
 
                     if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
                         transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
@@ -332,7 +348,7 @@ public class Player : Entity
                 {
                     PushPlayerBackFromEnemy(currentEnemy);
 
-                    SetFirstPlayerStage(immortalTime);
+                    SetFirstPlayerStage(freezeTimeOnEnemyCollision);
 
                     if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
                         transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
@@ -363,9 +379,9 @@ public class Player : Entity
         if (collision.gameObject.GetComponent<DropEntity>() != null)
         {
             if (gM.playerStage1)
-                SetSecondPlayerStage(immortalTime);
+                SetSecondPlayerStage(freezeTimeOnDropCatch);
             else if (gM.playerStage2)
-                SetThirdPlayerStage(immortalTime);
+                SetThirdPlayerStage(freezeTimeOnDropCatch);
             else if (gM.playerStage3)
                 gM.IncreaseSocre(1000);
 
@@ -426,10 +442,10 @@ public class Player : Entity
     void PushPlayerBackFromEnemy(Enemy currentEnemy)
     {
         if (transform.position.x > currentEnemy.transform.position.x)
-            SetVelocity(2, 8);
+            SetVelocity(4, 10);
 
         if (transform.position.x < currentEnemy.transform.position.x)
-            SetVelocity(-2, 8);
+            SetVelocity(-4, 10);
     }
 
     void PlayerDie()
@@ -444,7 +460,7 @@ public class Player : Entity
         FindPositionToRevive();
         capsuleCollider.isTrigger = false;
         isDead = false;
-        SetFirstPlayerStage(immortalTime * 2);
+        SetFirstPlayerStage(freezeTimeAfterRevive);
     }
 
     void FindPositionToRevive()

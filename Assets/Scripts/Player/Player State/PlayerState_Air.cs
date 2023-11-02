@@ -18,7 +18,8 @@ public class PlayerState_Air : PlayerState
     {
         base.FixedUpdate();
 
-        player.SetVelocity(player.currentMoveSpeed * 0.8f * xInput, rb.velocity.y);
+        if (player.canMove)
+            player.SetVelocity(player.currentMoveSpeed * 0.8f * xInput, rb.velocity.y);
     }
 
     public override void Update()
@@ -30,7 +31,12 @@ public class PlayerState_Air : PlayerState
             if (xInput == 0)
                 stateMachine.ChangeState(player.idleState);
             else
-                stateMachine.ChangeState(player.moveState);
+            {
+                if (player.canMove)
+                    stateMachine.ChangeState(player.moveState);
+                else
+                    stateMachine.ChangeState(player.idleState);
+            }
         }
     }
 

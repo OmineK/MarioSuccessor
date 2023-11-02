@@ -7,13 +7,17 @@ public class PlayerState_Move : PlayerState_Grounded
     public override void Enter()
     {
         base.Enter();
+
+        if (player.canMove)
+            player.SetVelocity(xInput * player.currentMoveSpeed, rb.velocity.y);
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        player.SetVelocity(xInput * player.currentMoveSpeed, rb.velocity.y);
+        if (player.canMove)
+            player.SetVelocity(xInput * player.currentMoveSpeed, rb.velocity.y);
     }
 
     public override void Update()

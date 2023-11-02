@@ -25,7 +25,7 @@ public class PlayerState_Grounded : PlayerState
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && player.canMove)
             stateMachine.ChangeState(player.jumpState);
     }
 
