@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class Player : Entity
 {
+    [Header("Follow camera info")]
+    [SerializeField] Transform followCamera;
+    [SerializeField] float cameraYPos;
+
     [Header("Movement info")]
     [SerializeField] float normalMoveSpeed;
     [SerializeField] float extraMoveSpeed;
@@ -104,6 +108,8 @@ public class Player : Entity
     {
         base.Start();
 
+        followCamera.position = new Vector3(followCamera.position.x, cameraYPos);
+
         defaultParent = transform.parent;
         gM = GameManager.instance;
         stateMachine.Initialize(idleState);
@@ -130,6 +136,8 @@ public class Player : Entity
         base.Update();
         CanShootTimer();
         ImmortalityTimer();
+
+        followCamera.position = new Vector3(followCamera.position.x, cameraYPos);
 
         stateMachine.currentState.Update();
 
