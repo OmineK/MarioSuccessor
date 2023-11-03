@@ -471,14 +471,15 @@ public class Player : Entity
         transform.position = new Vector3(transform.position.x - 10f, transform.position.y + 4.5f);
 
         while (SomethingIsAround() && lookingForNewPosAttempts > 0 ||
-               !GroundBelow() && lookingForNewPosAttempts > 0)
+               !GroundBelow() && lookingForNewPosAttempts > 0 || 
+               GroundBelow().transform.gameObject.GetComponent<Platform>() != null && lookingForNewPosAttempts > 0)
         {
             float randomXoffset = UnityEngine.Random.Range(-4f, -1f);
             transform.position = new Vector3(transform.position.x + randomXoffset, transform.position.y);
             lookingForNewPosAttempts--;
         }
 
-        if (!GroundBelow() || SomethingIsAround())
+        if (!GroundBelow() || SomethingIsAround() || GroundBelow().transform.gameObject.GetComponent<Platform>() != null)
         {
             transform.position = startingPos;
             transform.position = new Vector3(transform.position.x - 2f, transform.position.y + 4.5f);
