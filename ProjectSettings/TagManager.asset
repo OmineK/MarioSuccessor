@@ -17,7 +17,7 @@ TagManager:
   - Fireball
   - Springboard
   - BarnacleEnemy
-  - 
+  - Obstacle
   - 
   - 
   - 
@@ -58,6 +58,9 @@ TagManager:
     locked: 0
   - name: Fireball
     uniqueID: 315839821
+    locked: 0
+  - name: Obstacle
+    uniqueID: 587091213
     locked: 0
   - name: Player
     uniqueID: 1831420741
