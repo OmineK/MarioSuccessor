@@ -136,6 +136,7 @@ public class Player : Entity
         base.Update();
         CanShootTimer();
         ImmortalityTimer();
+        KillPlayerOnFalling();
 
         followCamera.position = new Vector3(followCamera.position.x, cameraYPos);
 
@@ -270,6 +271,17 @@ public class Player : Entity
         }
     }
 
+    void KillPlayerOnFalling()
+    {
+        if (transform.position.y < -4.3f && isDead == false)
+        {
+            PlayerDie();
+
+            if (gM.gameOver == false)
+                Invoke(nameof(RevivePlayer), 5f);
+        }
+    }
+
     void SetBallDirection(GameObject fireBall)
     {
         if (facingDir == 1)
@@ -286,24 +298,32 @@ public class Player : Entity
             sr.material = originalMat;
     }
 
-    #region Collision
-
-    void OnCollisionEnter2D(Collision2D collision)
+    void PlayerDie()
     {
-        EnemyCollision(collision);
-        ExtraLifeCollision(collision);
-        StageUpDropCollision(collision);
-        SpringboardCollision(collision);
-        MovablePlatformCollision(collision);
+        gM.DecreasePlayerLifeAmount();
+        capsuleCollider.isTrigger = true;
+        isDead = true;
     }
 
-    void OnCollisionExit2D(Collision2D collision)
+    #region Collision
+
+    void OnCollisionEnter2D(Collision2D _collision)
     {
-        if (collision.gameObject.GetComponent<Platform>() != null)
+        EnemyCollision(_collision);
+        ExtraLifeCollision(_collision);
+        StageUpDropCollision(_collision);
+        SpringboardCollision(_collision);
+        MovablePlatformCollision(_collision);
+        FireObstacleCollision(_collision);
+    }
+
+    void OnCollisionExit2D(Collision2D _collision)
+    {
+        if (_collision.gameObject.GetComponent<Platform>() != null)
         {
             if (transform.parent == defaultParent) { return; }
 
-            Platform platform = collision.gameObject.GetComponent<Platform>();
+            Platform platform = _collision.gameObject.GetComponent<Platform>();
             transform.parent = defaultParent;
             rb.interpolation = RigidbodyInterpolation2D.Interpolate;
 
@@ -314,16 +334,16 @@ public class Player : Entity
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D _collision)
     {
-        CoinTriggerCollision(collision);
+        CoinTriggerCollision(_collision);
     }
 
-    void EnemyCollision(Collision2D collision)
+    void EnemyCollision(Collision2D _collision)
     {
-        if (collision.gameObject.GetComponent<Enemy>() != null)
+        if (_collision.gameObject.GetComponent<Enemy>() != null)
         {
-            Enemy currentEnemy = collision.gameObject.GetComponent<Enemy>();
+            Enemy currentEnemy = _collision.gameObject.GetComponent<Enemy>();
 
             if (currentEnemy.isDead == true) { return; }
 
@@ -373,18 +393,18 @@ public class Player : Entity
         }
     }
 
-    void ExtraLifeCollision(Collision2D collision)
+    void ExtraLifeCollision(Collision2D _collision)
     {
-        if (collision.gameObject.GetComponent<ExtraLifeDrop>() != null)
+        if (_collision.gameObject.GetComponent<ExtraLifeDrop>() != null)
         {
             gM.IncreasePlayerLifeAmount();
-            Destroy(collision.gameObject);
+            Destroy(_collision.gameObject);
         }
     }
 
-    void StageUpDropCollision(Collision2D collision)
+    void StageUpDropCollision(Collision2D _collision)
     {
-        if (collision.gameObject.GetComponent<DropEntity>() != null)
+        if (_collision.gameObject.GetComponent<DropEntity>() != null)
         {
             if (gM.playerStage1)
                 SetSecondPlayerStage(freezeTimeOnDropCatch);
@@ -393,15 +413,15 @@ public class Player : Entity
             else if (gM.playerStage3)
                 gM.IncreaseSocre(1000);
 
-            Destroy(collision.gameObject);
+            Destroy(_collision.gameObject);
         }
     }
 
-    void SpringboardCollision(Collision2D collision)
+    void SpringboardCollision(Collision2D _collision)
     {
-        if (collision.gameObject.GetComponent<Springboard>() != null)
+        if (_collision.gameObject.GetComponent<Springboard>() != null)
         {
-            Springboard springboard = collision.gameObject.GetComponent<Springboard>();
+            Springboard springboard = _collision.gameObject.GetComponent<Springboard>();
 
             float lowestPointOfPlayerPos = transform.position.y - (capsuleCollider.size.y / 2);
 
@@ -417,11 +437,11 @@ public class Player : Entity
         }
     }
 
-    void MovablePlatformCollision(Collision2D collision)
+    void MovablePlatformCollision(Collision2D _collision)
     {
-        if (collision.gameObject.GetComponent<Platform>() != null)
+        if (_collision.gameObject.GetComponent<Platform>() != null)
         {
-            Platform platform = collision.gameObject.GetComponent<Platform>();
+            Platform platform = _collision.gameObject.GetComponent<Platform>();
 
             if (platform.transform.position.y < transform.position.y - (capsuleCollider.size.y / 2) + 0.1f)
             {
@@ -432,14 +452,43 @@ public class Player : Entity
         }
     }
 
-    void CoinTriggerCollision(Collider2D collision)
+    void FireObstacleCollision(Collision2D _collision)
     {
-        if (collision.gameObject.GetComponent<Coin>() != null)
+        if (_collision.gameObject.GetComponentInParent<FireObstacle>() != null)
         {
-            Coin coin = collision.gameObject.GetComponent<Coin>();
+            FireObstacle fireObstacle = _collision.gameObject.GetComponentInParent<FireObstacle>();
+
+            if (isDead) { return; }
+
+            if (transform.position.x < fireObstacle.transform.position.x)
+                SetVelocity(-7, 11);
+            else
+                SetVelocity(7, 11);
+
+            if (isImmortal) { return; }
+
+            if (isOnStage3)
+                SetSecondPlayerStage(freezeTimeOnEnemyCollision);
+            else if (isOnStage2)
+                SetFirstPlayerStage(freezeTimeOnEnemyCollision);
+            else if (isOnStage1)
+            {
+                PlayerDie();
+
+                if (gM.gameOver == false)
+                    Invoke(nameof(RevivePlayer), 5f);
+            }
+        }
+    }
+
+    void CoinTriggerCollision(Collider2D _collision)
+    {
+        if (_collision.gameObject.GetComponent<Coin>() != null)
+        {
+            Coin coin = _collision.gameObject.GetComponent<Coin>();
 
             gM.IncreaseSocre(coin.scoreValue);
-            Destroy(collision.gameObject);
+            Destroy(_collision.gameObject);
         }
     }
 
@@ -447,20 +496,13 @@ public class Player : Entity
 
     bool rightLegIsAboveEnemy() => Physics2D.Raycast(secondGroundCheck.position, Vector2.down, 0.4f, whatIsEnemy);
 
-    void PushPlayerBackFromEnemy(Enemy currentEnemy)
+    void PushPlayerBackFromEnemy(Enemy _currentEnemy)
     {
-        if (transform.position.x > currentEnemy.transform.position.x)
+        if (transform.position.x > _currentEnemy.transform.position.x)
             SetVelocity(4, 10);
 
-        if (transform.position.x < currentEnemy.transform.position.x)
+        if (transform.position.x < _currentEnemy.transform.position.x)
             SetVelocity(-4, 10);
-    }
-
-    void PlayerDie()
-    {
-        gM.DecreasePlayerLifeAmount();
-        capsuleCollider.isTrigger = true;
-        isDead = true;
     }
 
     void RevivePlayer()
@@ -479,8 +521,7 @@ public class Player : Entity
         transform.position = new Vector3(transform.position.x - 10f, transform.position.y + 4.5f);
 
         while (SomethingIsAround() && lookingForNewPosAttempts > 0 ||
-               !GroundBelow() && lookingForNewPosAttempts > 0 || 
-               GroundBelow().transform.gameObject.GetComponent<Platform>() != null && lookingForNewPosAttempts > 0)
+               !GroundBelow() && lookingForNewPosAttempts > 0)
         {
             float randomXoffset = UnityEngine.Random.Range(-4f, -1f);
             transform.position = new Vector3(transform.position.x + randomXoffset, transform.position.y);
