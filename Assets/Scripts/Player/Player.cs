@@ -70,7 +70,6 @@ public class Player : Entity
     bool canShoot;
     [Space]
 
-
     public Transform defaultParent;
 
     CapsuleCollider2D capsuleCollider;
@@ -113,7 +112,7 @@ public class Player : Entity
         defaultParent = transform.parent;
         gM = GameManager.instance;
         stateMachine.Initialize(idleState);
-
+    
         if (isOnStage1)
             SetFirstPlayerStage(0);
         else if (isOnStage2)
@@ -337,6 +336,7 @@ public class Player : Entity
     void OnTriggerEnter2D(Collider2D _collision)
     {
         CoinTriggerCollision(_collision);
+        FlagTriggerCollision(_collision);
     }
 
     void EnemyCollision(Collision2D _collision)
@@ -489,6 +489,18 @@ public class Player : Entity
 
             gM.IncreaseSocre(coin.scoreValue);
             Destroy(_collision.gameObject);
+        }
+    }
+
+    void FlagTriggerCollision(Collider2D _collision)
+    {
+        if (_collision.gameObject.GetComponent<LevelEndFlag>() != null)
+        {
+            LevelEndFlag flag = _collision.gameObject.GetComponent<LevelEndFlag>();
+
+            stateMachine.ChangeState(jumpState);
+
+            flag.LoadNextLevelAfter(0.5f);
         }
     }
 
