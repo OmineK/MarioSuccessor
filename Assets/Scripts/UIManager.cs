@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
 
     [Header("In-game panels info")]
     [SerializeField] GameObject menuPanel;
+    [SerializeField] GameObject goToMenuInfoPanel;
     [SerializeField] GameObject gameOverPanel;
 
     void Awake()
@@ -36,6 +37,7 @@ public class UIManager : MonoBehaviour
     {
         MenuPanelActiveUI(false);
         GameOverPanelActiveUI(false);
+        goToMenuInfoPanel.SetActive(false);
     }
 
     public void UpdateLifesLeftUI(int _currentLifes)
@@ -94,8 +96,20 @@ public class UIManager : MonoBehaviour
 
     public void BackToMenuButtonUI()
     {
+        MenuPanelActiveUI(false);
+        goToMenuInfoPanel.SetActive(true);
+    }
+
+    public void BackToMenuYesButtonUI()
+    {
         Time.timeScale = 1;
         SceneManager.LoadScene(0); // load menu scene (it's scene with index 0)
+    }
+
+    public void BackToMenuNoButtonUI()
+    {
+        goToMenuInfoPanel.SetActive(false);
+        MenuPanelActiveUI(true);
     }
 
     public void ExitGameButtonUI()
