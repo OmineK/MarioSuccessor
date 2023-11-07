@@ -96,6 +96,10 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         gameOver = true;
-        Debug.Log("You lose");
+        UIManager.instance.GameOverPanelActiveUI(true);
+
+        Invoke(nameof(StopTimeAfterGameOver), 2);
     }
+
+    void StopTimeAfterGameOver() => Time.timeScale = 0;
 }

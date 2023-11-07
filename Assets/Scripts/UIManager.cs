@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -19,12 +20,22 @@ public class UIManager : MonoBehaviour
     [SerializeField] Color activeColor;
     [SerializeField] Color inactiveColor;
 
+    [Header("In-game panels info")]
+    [SerializeField] GameObject menuPanel;
+    [SerializeField] GameObject gameOverPanel;
+
     void Awake()
     {
         if (instance != null)
             Destroy(instance.gameObject);
         else
             instance = this;
+    }
+
+    void Start()
+    {
+        MenuPanelActiveUI(false);
+        GameOverPanelActiveUI(false);
     }
 
     public void UpdateLifesLeftUI(int _currentLifes)
@@ -69,5 +80,34 @@ public class UIManager : MonoBehaviour
             stage2.color = inactiveColor;
             stage3.color = activeColor;
         }
+    }
+
+    public void MenuPanelActiveUI(bool _active) => menuPanel.SetActive(_active);
+
+    public void GameOverPanelActiveUI(bool _active) => gameOverPanel.SetActive(_active);
+
+    public void BackToGameButtonUI()
+    {
+        Time.timeScale = 1;
+        MenuPanelActiveUI(false);
+    }
+
+    public void BackToMenuButtonUI()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0); // load menu scene (it's scene with index 0)
+    }
+
+    public void ExitGameButtonUI()
+    {
+        Debug.Log("Quit");
+        Application.Quit();
+    }
+
+    public void ResetButtonUI()
+    {
+        Time.timeScale = 1;
+        GameOverPanelActiveUI(false);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

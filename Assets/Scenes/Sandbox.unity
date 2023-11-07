@@ -668,7 +668,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 179459239}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1110368114}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ExitGameButtonUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &179459239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1154,7 +1166,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 263024295}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1110368114}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: BackToMenuButtonUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &263024295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1222,7 +1246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50dba400453a2b54ca771df071420227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLifeAmount: 3
+  playerLifeAmount: 1
   roundTime: 120
   playerStage1: 0
   playerStage2: 0
@@ -4119,7 +4143,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1060183813}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1110368114}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ResetButtonUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1060183813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4222,6 +4258,8 @@ MonoBehaviour:
   stage3: {fileID: 918123762}
   activeColor: {r: 1, g: 1, b: 1, a: 255}
   inactiveColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 0.39215687}
+  menuPanel: {fileID: 1496137847}
+  gameOverPanel: {fileID: 836215554}
 --- !u!1 &1124644576
 GameObject:
   m_ObjectHideFlags: 0
@@ -4997,7 +5035,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1310717897}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1110368114}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: BackToGameButtonUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1310717897
 MonoBehaviour:
   m_ObjectHideFlags: 0

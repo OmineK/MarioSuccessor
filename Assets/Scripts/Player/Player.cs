@@ -151,6 +151,17 @@ public class Player : Entity
             canShoot = false;
             canShootTimer = shootingSpeed;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale != 0)
+        {
+            Time.timeScale = 0;
+            UIManager.instance.MenuPanelActiveUI(true);
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+            UIManager.instance.MenuPanelActiveUI(false);
+        }
     }
 
     void SetFirstPlayerStage(float _freezeTime)
