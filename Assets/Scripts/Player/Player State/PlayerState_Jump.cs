@@ -15,12 +15,7 @@ public class PlayerState_Jump : PlayerState
 
         player.SetVelocity(rb.velocity.x, player.currentJumpForce);
 
-        int randomSFX = Random.Range(1, 3);
-
-        if (randomSFX == 1)
-            player.aM.PlaySFX(3);
-        else if (randomSFX == 2)
-            player.aM.PlaySFX(4);
+        player.aM.PlaySFX(4);
     }
 
     public override void FixedUpdate()

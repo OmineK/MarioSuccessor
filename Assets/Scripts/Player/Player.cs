@@ -362,7 +362,7 @@ public class Player : Entity
     {
         if (_collision.gameObject.GetComponent<Enemy>() != null)
         {
-            aM.PlaySFX(0); //play collision SFX
+            //aM.PlaySFX(0); //play collision SFX
 
             Enemy currentEnemy = _collision.gameObject.GetComponent<Enemy>();
 
@@ -388,7 +388,7 @@ public class Player : Entity
                     PushPlayerBackFromEnemy(currentEnemy);
                     SetSecondPlayerStage(freezeTimeOnEnemyCollision);
 
-                    aM.PlaySFX(11); //play stage down SFX
+                    //aM.PlaySFX(11); //play stage down SFX
 
                     if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
                         transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
@@ -399,7 +399,7 @@ public class Player : Entity
                     PushPlayerBackFromEnemy(currentEnemy);
                     SetFirstPlayerStage(freezeTimeOnEnemyCollision);
 
-                    aM.PlaySFX(11); //play stage down SFX
+                    //aM.PlaySFX(11); //play stage down SFX
 
                     if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
                         transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
@@ -420,7 +420,7 @@ public class Player : Entity
     {
         if (_collision.gameObject.GetComponent<ExtraLifeDrop>() != null)
         {
-            aM.PlaySFX(7); //play extra life SFX
+            //aM.PlaySFX(7); //play extra life SFX
 
             gM.IncreasePlayerLifeAmount();
             Destroy(_collision.gameObject);
@@ -429,9 +429,9 @@ public class Player : Entity
 
     void StageUpDropCollision(Collision2D _collision)
     {
-        if (_collision.gameObject.GetComponent<DropEntity>() != null)
+        if (_collision.gameObject.GetComponent<StageUpDrop>() != null)
         {
-            aM.PlaySFX(10); //play stage up SFX
+            //aM.PlaySFX(10); //play stage up SFX
 
             if (gM.playerStage1)
                 SetSecondPlayerStage(freezeTimeOnDropCatch);
