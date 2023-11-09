@@ -1502,7 +1502,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518608962}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.83, y: -2.56, z: 0}
+  m_LocalPosition: {x: -20.48, y: -2.64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1568,6 +1568,8 @@ MonoBehaviour:
   fireBallPref: {fileID: 4171978645567872875, guid: 2e42a132ad5318a4dbbf12ecb0123f63, type: 3}
   shootingSpeed: 0.7
   defaultParent: {fileID: 0}
+  aM: {fileID: 0}
+  isLevelLoading: 0
 --- !u!50 &518608965
 Rigidbody2D:
   serializedVersion: 4
@@ -1683,7 +1685,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.601107, y: 0.32236558, z: -9.937504}
+  m_LocalPosition: {x: -18.251106, y: 0.24236542, z: -9.937504}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5048,7 +5050,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f676b1bdea963c441964724058291b24, type: 3}
   - {fileID: 8300000, guid: 32b0909e5304864488fae53ea6f3be76, type: 3}
   - {fileID: 8300000, guid: 16f8c86f29427e9488d849965cacdc13, type: 3}
-  - {fileID: 8300000, guid: f9809865a3d313d429b537fafb8cfa60, type: 3}
+  - {fileID: 8300000, guid: 140fd2ceb8549134586b9759fcdfb889, type: 3}
   - {fileID: 8300000, guid: 87493945fdaf9a94cac62010be0895d1, type: 3}
   - {fileID: 8300000, guid: e0e9d0f81463fee44ba71c65371c9a28, type: 3}
   - {fileID: 8300000, guid: d5d7d2aa3a1f5a9419268e540710d22d, type: 3}
@@ -8376,7 +8378,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036932988}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.601107, y: 0.32236558, z: -9.937504}
+  m_LocalPosition: {x: -18.251106, y: 0.24236542, z: -9.937504}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
