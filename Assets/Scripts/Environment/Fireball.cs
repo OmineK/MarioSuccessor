@@ -70,6 +70,7 @@ public class Fireball : MonoBehaviour
 
         if (WallDetected() || WallDetected2() || WallDetected3())
         {
+            AudioManager.instance.PlaySFX(12);
             GameObject explosion = Instantiate(fireballExplosionPref, transform.position, Quaternion.identity);
             Destroy(explosion.gameObject, 0.5f);
             Destroy(this.gameObject);
@@ -77,6 +78,7 @@ public class Fireball : MonoBehaviour
 
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {
+            AudioManager.instance.PlaySFX(12);
             Enemy currentEnemy = collision.gameObject.GetComponent<Enemy>();
             GameManager.instance.IncreaseSocre(currentEnemy.scoreValue / 2);
             currentEnemy.Die();

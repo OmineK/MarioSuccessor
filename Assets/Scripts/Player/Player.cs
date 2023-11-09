@@ -373,8 +373,6 @@ public class Player : Entity
     {
         if (_collision.gameObject.GetComponent<Enemy>() != null)
         {
-            //aM.PlaySFX(0);
-
             Enemy currentEnemy = _collision.gameObject.GetComponent<Enemy>();
 
             if (currentEnemy.isDead == true) { return; }
@@ -384,7 +382,8 @@ public class Player : Entity
                 gM.IncreaseSocre(currentEnemy.scoreValue);
                 currentEnemy.Die();
 
-                SetVelocity(0, 10);
+                aM.PlaySFX(5);
+                SetVelocity(0, 14);
             }
             else
             {
@@ -399,7 +398,7 @@ public class Player : Entity
                     PushPlayerBackFromEnemy(currentEnemy);
                     SetSecondPlayerStage(freezeTimeOnEnemyCollision);
 
-                    //aM.PlaySFX(11);
+                    aM.PlaySFX(10);
 
                     if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
                         transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
@@ -410,7 +409,7 @@ public class Player : Entity
                     PushPlayerBackFromEnemy(currentEnemy);
                     SetFirstPlayerStage(freezeTimeOnEnemyCollision);
 
-                    //aM.PlaySFX(11);
+                    aM.PlaySFX(10);
 
                     if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
                         transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
@@ -511,12 +510,12 @@ public class Player : Entity
 
             if (isOnStage3)
             {
-                //aM.PlaySFX(11);
+                aM.PlaySFX(10);
                 SetSecondPlayerStage(freezeTimeOnEnemyCollision);
             }
             else if (isOnStage2)
             {
-                //aM.PlaySFX(11);
+                aM.PlaySFX(10);
                 SetFirstPlayerStage(freezeTimeOnEnemyCollision);
             }
             else if (isOnStage1)
