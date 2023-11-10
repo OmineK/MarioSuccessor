@@ -8,16 +8,14 @@ public class PlayerState_Move : PlayerState_Grounded
     {
         base.Enter();
 
-        if (player.canMove)
-            player.SetVelocity(xInput * player.currentMoveSpeed, rb.velocity.y);
+        player.SetVelocity(xInput * player.currentMoveSpeed, rb.velocity.y);
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        if (player.canMove)
-            player.SetVelocity(xInput * player.currentMoveSpeed, rb.velocity.y);
+        player.SetVelocity(xInput * player.currentMoveSpeed, rb.velocity.y);
     }
 
     public override void Update()

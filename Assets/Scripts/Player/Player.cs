@@ -23,6 +23,7 @@ public class Player : Entity
     [SerializeField] float secondGroundCheckDistance;
     [SerializeField] LayerMask whatIsEnemy;
     [SerializeField] Vector2 revivePositionCheck;
+    [SerializeField] Transform playerBody;
     [Space]
     [NonSerialized] public bool isDead;
 
@@ -51,17 +52,11 @@ public class Player : Entity
     [SerializeField] bool isOnStage3;
 
     [Header("White blink FX && Player immortality")]
+    [SerializeField] float immortalityTime;
     [SerializeField] Material changedMat;
     Material originalMat;
     bool isImmortal;
-
-    [Header("Freeze timer info")]
-    [SerializeField] float freezeTimeOnDropCatch;
-    [SerializeField] float freezeTimeOnEnemyCollision;
-    [SerializeField] float freezeTimeAfterRevive;
-    [NonSerialized] public bool canMove;
-    float freezeTimer;
-    float canMoveTimer;
+    float immortalityTimer;
 
     [Header("Fireball info")]
     [SerializeField] GameObject fireBallPref;
@@ -72,23 +67,23 @@ public class Player : Entity
 
     public Transform defaultParent;
     public AudioManager aM;
+    public GameManager gM;
 
     public bool isLevelLoading;
 
     CapsuleCollider2D capsuleCollider;
     SpriteRenderer sr;
-    GameManager gM;
 
     #region Player states
 
     public PlayerStateMachine stateMachine { get; private set; }
+
     public PlayerState_Idle idleState { get; private set; }
     public PlayerState_Move moveState { get; private set; }
     public PlayerState_Jump jumpState { get; private set; }
     public PlayerState_Air airState { get; private set; }
 
     public PlayerState_Dead deadState { get; private set; }
-
     #endregion
 
     protected override void Awake()
@@ -98,6 +93,8 @@ public class Player : Entity
         capsuleCollider = GetComponent<CapsuleCollider2D>();
 
         stateMachine = new PlayerStateMachine();
+
+        //Player stage 1
         idleState = new PlayerState_Idle(this, stateMachine, "Idle");
         moveState = new PlayerState_Move(this, stateMachine, "Move");
         jumpState = new PlayerState_Jump(this, stateMachine, "Jump");
@@ -123,8 +120,6 @@ public class Player : Entity
             SetSecondPlayerStage(0);
         else if (isOnStage3)
             SetThirdPlayerStage(0);
-
-        canMove = true;
     }
 
     protected override void FixedUpdate()
@@ -145,7 +140,7 @@ public class Player : Entity
 
         stateMachine.currentState.Update();
 
-        if (isOnStage3 && canShoot && Input.GetKeyDown(KeyCode.Z) && canMove)
+        if (isOnStage3 && canShoot && Input.GetKeyDown(KeyCode.Z))
         {
             aM.PlaySFX(1);
 
@@ -172,19 +167,29 @@ public class Player : Entity
 
     void SetFirstPlayerStage(float _freezeTime)
     {
+        #region setup animation
+        idleState = new PlayerState_Idle(this, stateMachine, "Idle");
+        moveState = new PlayerState_Move(this, stateMachine, "Move");
+        jumpState = new PlayerState_Jump(this, stateMachine, "Jump");
+        airState = new PlayerState_Air(this, stateMachine, "Jump");
+
+        deadState = new PlayerState_Dead(this, stateMachine, "Dead");
+        #endregion
+
         isOnStage1 = true;
         isOnStage2 = false;
         isOnStage3 = false;
 
-        secondStage.SetActive(false);
-        thirdStage.SetActive(false);
-
-        firstStage.SetActive(true);
+        if (anim.GetBool("Idle2") || anim.GetBool("Idle3"))
+        {
+            anim.SetBool("Idle", true);
+            anim.SetBool("Idle2", false);
+            anim.SetBool("Idle3", false);
+        }
 
         currentMoveSpeed = normalMoveSpeed;
         currentJumpForce = normalJumpForce;
         sr = GetComponentInChildren<SpriteRenderer>();
-        anim = GetComponentInChildren<Animator>();
 
         originalMat = sr.material;
 
@@ -193,24 +198,37 @@ public class Player : Entity
 
         gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
 
-        SetImmortalToPlayer(_freezeTime);
+        playerBody.transform.localPosition = Vector3.zero;
+        playerBody.transform.localScale = Vector3.one;
+
+        SetImmortalityPlayer(_freezeTime);
     }
 
     void SetSecondPlayerStage(float _freezeTime)
     {
+        #region setup animation
+        idleState = new PlayerState_Idle(this, stateMachine, "Idle2");
+        moveState = new PlayerState_Move(this, stateMachine, "Move2");
+        jumpState = new PlayerState_Jump(this, stateMachine, "Jump2");
+        airState = new PlayerState_Air(this, stateMachine, "Jump2");
+
+        deadState = new PlayerState_Dead(this, stateMachine, "Dead2");
+        #endregion
+
         isOnStage1 = false;
         isOnStage2 = true;
         isOnStage3 = false;
 
-        firstStage.SetActive(false);
-        thirdStage.SetActive(false);
-
-        secondStage.SetActive(true);
+        if (anim.GetBool("Idle") || anim.GetBool("Idle3"))
+        {
+            anim.SetBool("Idle", false);
+            anim.SetBool("Idle2", true);
+            anim.SetBool("Idle3", false);
+        }
 
         currentMoveSpeed = extraMoveSpeed;
         currentJumpForce = extraJumpForce;
         sr = GetComponentInChildren<SpriteRenderer>();
-        anim = GetComponentInChildren<Animator>();
 
         originalMat = sr.material;
 
@@ -219,24 +237,37 @@ public class Player : Entity
 
         gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
 
-        SetImmortalToPlayer(_freezeTime);
+        playerBody.transform.localPosition = new Vector3(0, 0.12f, 0);
+        playerBody.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+
+        SetImmortalityPlayer(_freezeTime);
     }
 
     void SetThirdPlayerStage(float _freezeTime)
     {
+        #region setup animation
+        idleState = new PlayerState_Idle(this, stateMachine, "Idle3");
+        moveState = new PlayerState_Move(this, stateMachine, "Move3");
+        jumpState = new PlayerState_Jump(this, stateMachine, "Jump3");
+        airState = new PlayerState_Air(this, stateMachine, "Jump3");
+
+        deadState = new PlayerState_Dead(this, stateMachine, "Dead3");
+        #endregion
+
         isOnStage1 = false;
         isOnStage2 = false;
         isOnStage3 = true;
 
-        firstStage.SetActive(false);
-        secondStage.SetActive(false);
-
-        thirdStage.SetActive(true);
+        if (anim.GetBool("Idle") || anim.GetBool("Idle2"))
+        {
+            anim.SetBool("Idle", false);
+            anim.SetBool("Idle2", false);
+            anim.SetBool("Idle3", true);
+        }
 
         currentMoveSpeed = extraMoveSpeed;
         currentJumpForce = extraJumpForce;
         sr = GetComponentInChildren<SpriteRenderer>();
-        anim = GetComponentInChildren<Animator>();
 
         originalMat = sr.material;
 
@@ -245,16 +276,17 @@ public class Player : Entity
 
         gM.UpdatePlayerCurrentStage(isOnStage1, isOnStage2, isOnStage3);
 
-        SetImmortalToPlayer(_freezeTime);
+        playerBody.transform.localPosition = new Vector3(0, 0.12f, 0);
+        playerBody.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+
+        SetImmortalityPlayer(_freezeTime);
     }
 
-    void SetImmortalToPlayer(float _freezeTime)
+    void SetImmortalityPlayer(float _immortalityTime)
     {
         InvokeRepeating(nameof(WhiteBlinkFX), 0, 0.2f);
-        freezeTimer = _freezeTime;
-        canMoveTimer = _freezeTime * 0.8f;
+        immortalityTimer = _immortalityTime;
         isImmortal = true;
-        canMove = false;
     }
 
     void CanShootTimer()
@@ -272,13 +304,9 @@ public class Player : Entity
     {
         if (isImmortal)
         {
-            freezeTimer -= Time.deltaTime;
-            canMoveTimer -= Time.deltaTime;
+            immortalityTimer -= Time.deltaTime;
 
-            if (canMoveTimer < 0)
-                canMove = true;
-
-            if (freezeTimer < 0)
+            if (immortalityTimer < 0)
             {
                 CancelInvoke(nameof(WhiteBlinkFX));
                 isImmortal = false;
@@ -396,7 +424,7 @@ public class Player : Entity
                 if (isOnStage3)
                 {
                     PushPlayerBackFromEnemy(currentEnemy);
-                    SetSecondPlayerStage(freezeTimeOnEnemyCollision);
+                    SetSecondPlayerStage(immortalityTime);
 
                     aM.PlaySFX(10);
 
@@ -407,7 +435,7 @@ public class Player : Entity
                 else if (isOnStage2)
                 {
                     PushPlayerBackFromEnemy(currentEnemy);
-                    SetFirstPlayerStage(freezeTimeOnEnemyCollision);
+                    SetFirstPlayerStage(immortalityTime);
 
                     aM.PlaySFX(10);
 
@@ -444,9 +472,9 @@ public class Player : Entity
             aM.PlaySFX(3);
 
             if (gM.playerStage1)
-                SetSecondPlayerStage(freezeTimeOnDropCatch);
+                SetSecondPlayerStage(immortalityTime);
             else if (gM.playerStage2)
-                SetThirdPlayerStage(freezeTimeOnDropCatch);
+                SetThirdPlayerStage(immortalityTime);
             else if (gM.playerStage3)
                 gM.IncreaseSocre(1000);
 
@@ -511,12 +539,12 @@ public class Player : Entity
             if (isOnStage3)
             {
                 aM.PlaySFX(10);
-                SetSecondPlayerStage(freezeTimeOnEnemyCollision);
+                SetSecondPlayerStage(immortalityTime);
             }
             else if (isOnStage2)
             {
                 aM.PlaySFX(10);
-                SetFirstPlayerStage(freezeTimeOnEnemyCollision);
+                SetFirstPlayerStage(immortalityTime);
             }
             else if (isOnStage1)
             {
@@ -575,7 +603,7 @@ public class Player : Entity
         FindPositionToRevive();
         capsuleCollider.isTrigger = false;
         isDead = false;
-        SetFirstPlayerStage(freezeTimeAfterRevive);
+        SetFirstPlayerStage(immortalityTime * 2);
     }
 
     void FindPositionToRevive()

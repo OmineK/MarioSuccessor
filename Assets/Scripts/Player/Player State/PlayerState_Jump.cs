@@ -23,8 +23,7 @@ public class PlayerState_Jump : PlayerState
     {
         base.FixedUpdate();
 
-        if (player.canMove)
-            player.SetVelocity(player.currentMoveSpeed * xInput, rb.velocity.y);
+        player.SetVelocity(player.currentMoveSpeed * xInput, rb.velocity.y);
     }
 
     public override void Update()

@@ -26,12 +26,16 @@ public class PlayerState_Idle : PlayerState_Grounded
                 return;
         }
 
-        if (xInput != 0 && player.canMove)
+        if (xInput != 0)
             stateMachine.ChangeState(player.moveState);
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        player.anim.SetBool("Idle", false);
+        player.anim.SetBool("Idle2", false);
+        player.anim.SetBool("Idle3", false);
     }
 }
