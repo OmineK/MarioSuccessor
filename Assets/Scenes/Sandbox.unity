@@ -8984,6 +8984,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2399837783637683085, guid: 0a168c216e8d4a8419f3fa6e64354f32, type: 3}
+      propertyPath: m_Size.x
+      value: 1.0263706
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399837783637683085, guid: 0a168c216e8d4a8419f3fa6e64354f32, type: 3}
+      propertyPath: m_Size.y
+      value: 0.52041465
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399837783637683085, guid: 0a168c216e8d4a8419f3fa6e64354f32, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.08604993
+      objectReference: {fileID: 0}
+    - target: {fileID: 2399837783637683085, guid: 0a168c216e8d4a8419f3fa6e64354f32, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.09568422
+      objectReference: {fileID: 0}
     - target: {fileID: 2399837783637683087, guid: 0a168c216e8d4a8419f3fa6e64354f32, type: 3}
       propertyPath: m_Name
       value: Enemy_Mouse
@@ -9325,6 +9341,22 @@ PrefabInstance:
     - target: {fileID: 6617047243986846853, guid: d8a9c15b2f3f25b4f8f1e63d3a4c7d6a, type: 3}
       propertyPath: m_BodyType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617047243986846854, guid: d8a9c15b2f3f25b4f8f1e63d3a4c7d6a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.169402
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617047243986846854, guid: d8a9c15b2f3f25b4f8f1e63d3a4c7d6a, type: 3}
+      propertyPath: m_Size.y
+      value: 0.8066608
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617047243986846854, guid: d8a9c15b2f3f25b4f8f1e63d3a4c7d6a, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.05363489
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617047243986846854, guid: d8a9c15b2f3f25b4f8f1e63d3a4c7d6a, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.0060435603
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8a9c15b2f3f25b4f8f1e63d3a4c7d6a, type: 3}
