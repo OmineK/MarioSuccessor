@@ -71,6 +71,8 @@ public class Player : Entity
 
     public bool isLevelLoading;
 
+    bool isStartingLevel;
+
     CapsuleCollider2D capsuleCollider;
     SpriteRenderer sr;
 
@@ -89,6 +91,8 @@ public class Player : Entity
     protected override void Awake()
     {
         base.Awake();
+
+        isStartingLevel = true;
 
         capsuleCollider = GetComponent<CapsuleCollider2D>();
 
@@ -115,11 +119,13 @@ public class Player : Entity
         stateMachine.Initialize(idleState);
 
         if (isOnStage1)
-            SetFirstPlayerStage(0);
+            SetFirstPlayerStage();
         else if (isOnStage2)
-            SetSecondPlayerStage(0);
+            SetSecondPlayerStage();
         else if (isOnStage3)
-            SetThirdPlayerStage(0);
+            SetThirdPlayerStage();
+
+        isStartingLevel = false;
     }
 
     protected override void FixedUpdate()
@@ -165,7 +171,7 @@ public class Player : Entity
         }
     }
 
-    void SetFirstPlayerStage(float _freezeTime)
+    void SetFirstPlayerStage()
     {
         #region setup animation
         idleState = new PlayerState_Idle(this, stateMachine, "Idle");
@@ -201,10 +207,10 @@ public class Player : Entity
         playerBody.transform.localPosition = Vector3.zero;
         playerBody.transform.localScale = Vector3.one;
 
-        SetImmortalityPlayer(_freezeTime);
+        SetImmortalityPlayer();
     }
 
-    void SetSecondPlayerStage(float _freezeTime)
+    void SetSecondPlayerStage()
     {
         #region setup animation
         idleState = new PlayerState_Idle(this, stateMachine, "Idle2");
@@ -240,10 +246,10 @@ public class Player : Entity
         playerBody.transform.localPosition = new Vector3(0, 0.12f, 0);
         playerBody.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
 
-        SetImmortalityPlayer(_freezeTime);
+        SetImmortalityPlayer();
     }
 
-    void SetThirdPlayerStage(float _freezeTime)
+    void SetThirdPlayerStage()
     {
         #region setup animation
         idleState = new PlayerState_Idle(this, stateMachine, "Idle3");
@@ -279,14 +285,20 @@ public class Player : Entity
         playerBody.transform.localPosition = new Vector3(0, 0.12f, 0);
         playerBody.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
 
-        SetImmortalityPlayer(_freezeTime);
+        SetImmortalityPlayer();
     }
 
-    void SetImmortalityPlayer(float _immortalityTime)
+    void SetImmortalityPlayer()
     {
+        if (isStartingLevel) { return; }
+
         InvokeRepeating(nameof(WhiteBlinkFX), 0, 0.2f);
-        immortalityTimer = _immortalityTime;
         isImmortal = true;
+
+        if (isDead)
+            immortalityTimer = immortalityTime * 2;
+        else
+            immortalityTimer = immortalityTime;
     }
 
     void CanShootTimer()
@@ -369,7 +381,6 @@ public class Player : Entity
         {
             if (transform.parent == defaultParent) { return; }
 
-            Platform platform = _collision.gameObject.GetComponent<Platform>();
             transform.parent = defaultParent;
             rb.interpolation = RigidbodyInterpolation2D.Interpolate;
 
@@ -390,8 +401,6 @@ public class Player : Entity
     {
         if (_collision.gameObject.GetComponent<LevelEndFlag>() != null)
         {
-            LevelEndFlag flag = _collision.gameObject.GetComponent<LevelEndFlag>();
-
             if (isGroundDetected() || isSecondGroundDetected())
                 stateMachine.ChangeState(jumpState);
         }
@@ -424,7 +433,7 @@ public class Player : Entity
                 if (isOnStage3)
                 {
                     PushPlayerBackFromEnemy(currentEnemy);
-                    SetSecondPlayerStage(immortalityTime);
+                    SetSecondPlayerStage();
 
                     aM.PlaySFX(10);
 
@@ -435,7 +444,7 @@ public class Player : Entity
                 else if (isOnStage2)
                 {
                     PushPlayerBackFromEnemy(currentEnemy);
-                    SetFirstPlayerStage(immortalityTime);
+                    SetFirstPlayerStage();
 
                     aM.PlaySFX(10);
 
@@ -471,10 +480,14 @@ public class Player : Entity
         {
             aM.PlaySFX(3);
 
-            if (gM.playerStage1)
-                SetSecondPlayerStage(immortalityTime);
-            else if (gM.playerStage2)
-                SetThirdPlayerStage(immortalityTime);
+            if (gM.playerStage1 && !isImmortal)
+                SetSecondPlayerStage();
+            else if (gM.playerStage2 && !isImmortal)
+                SetThirdPlayerStage();
+            else if (gM.playerStage1 && isImmortal)
+                Invoke(nameof(SetSecondPlayerStage), immortalityTimer + 0.2f);
+            else if (gM.playerStage2 && isImmortal)
+                Invoke(nameof(SetThirdPlayerStage), immortalityTimer + 0.2f);
             else if (gM.playerStage3)
                 gM.IncreaseSocre(1000);
 
@@ -539,12 +552,12 @@ public class Player : Entity
             if (isOnStage3)
             {
                 aM.PlaySFX(10);
-                SetSecondPlayerStage(immortalityTime);
+                SetSecondPlayerStage();
             }
             else if (isOnStage2)
             {
                 aM.PlaySFX(10);
-                SetFirstPlayerStage(immortalityTime);
+                SetFirstPlayerStage();
             }
             else if (isOnStage1)
             {
@@ -602,8 +615,8 @@ public class Player : Entity
     {
         FindPositionToRevive();
         capsuleCollider.isTrigger = false;
+        SetFirstPlayerStage();
         isDead = false;
-        SetFirstPlayerStage(immortalityTime * 2);
     }
 
     void FindPositionToRevive()
