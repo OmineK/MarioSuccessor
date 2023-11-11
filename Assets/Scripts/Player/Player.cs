@@ -333,12 +333,14 @@ public class Player : Entity
             canShootTimer = shootingSpeed;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale != 0)
+        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale != 0 && 
+            UIManager.instance.goToMenuInfoPanel.activeInHierarchy == false)
         {
             Time.timeScale = 0;
             UIManager.instance.MenuPanelActiveUI(true);
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale == 0)
+        else if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale == 0 && 
+            UIManager.instance.goToMenuInfoPanel.activeInHierarchy == false)
         {
             Time.timeScale = 1;
             UIManager.instance.MenuPanelActiveUI(false);

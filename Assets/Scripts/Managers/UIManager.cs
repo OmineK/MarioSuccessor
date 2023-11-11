@@ -22,8 +22,8 @@ public class UIManager : MonoBehaviour
 
     [Header("In-game panels info")]
     [SerializeField] GameObject menuPanel;
-    [SerializeField] GameObject goToMenuInfoPanel;
     [SerializeField] GameObject gameOverPanel;
+    public GameObject goToMenuInfoPanel;
 
     void Awake()
     {
