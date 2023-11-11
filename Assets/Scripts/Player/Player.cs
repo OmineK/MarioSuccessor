@@ -141,34 +141,13 @@ public class Player : Entity
         CanShootTimer();
         ImmortalityTimer();
         KillPlayerOnFalling();
+        KillPlayerAfterRoundTimeExpire();
 
         followCamera.position = new Vector3(followCamera.position.x, cameraYPos);
 
         stateMachine.currentState.Update();
 
-        if (isOnStage3 && canShoot && Input.GetKeyDown(KeyCode.Z))
-        {
-            aM.PlaySFX(1);
-
-            GameObject fireBall = Instantiate(fireBallPref,
-                new Vector3(transform.position.x + (0.35f * facingDir), transform.position.y + 0.3f), Quaternion.identity);
-
-            SetBallDirection(fireBall);
-
-            canShoot = false;
-            canShootTimer = shootingSpeed;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale != 0)
-        {
-            Time.timeScale = 0;
-            UIManager.instance.MenuPanelActiveUI(true);
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale == 0)
-        {
-            Time.timeScale = 1;
-            UIManager.instance.MenuPanelActiveUI(false);
-        }
+        PlayerInputs();
     }
 
     void SetFirstPlayerStage()
@@ -288,19 +267,6 @@ public class Player : Entity
         SetImmortalityPlayer();
     }
 
-    void SetImmortalityPlayer()
-    {
-        if (isStartingLevel) { return; }
-
-        InvokeRepeating(nameof(WhiteBlinkFX), 0, 0.2f);
-        isImmortal = true;
-
-        if (isDead)
-            immortalityTimer = immortalityTime * 2;
-        else
-            immortalityTimer = immortalityTime;
-    }
-
     void CanShootTimer()
     {
         if (!canShoot)
@@ -338,12 +304,58 @@ public class Player : Entity
         }
     }
 
-    void SetBallDirection(GameObject fireBall)
+    void KillPlayerAfterRoundTimeExpire()
     {
-        if (facingDir == 1)
-            fireBall.GetComponent<Fireball>().facingDir = 1;
-        else if (facingDir == -1)
-            fireBall.GetComponent<Fireball>().facingDir = -1;
+        if (gM.roundTimeTimer <= 0 && !gM.gameOver)
+        {
+            aM.PlaySFX(8);
+
+            stateMachine.ChangeState(deadState);
+            capsuleCollider.isTrigger = true;
+            isDead = true;
+
+            gM.GameOver();
+        }
+    }
+
+    void PlayerInputs()
+    {
+        if (isOnStage3 && canShoot && Input.GetKeyDown(KeyCode.Z))
+        {
+            aM.PlaySFX(1);
+
+            GameObject fireBall = Instantiate(fireBallPref,
+                new Vector3(transform.position.x + (0.35f * facingDir), transform.position.y + 0.3f), Quaternion.identity);
+
+            SetFireballDirection(fireBall);
+
+            canShoot = false;
+            canShootTimer = shootingSpeed;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale != 0)
+        {
+            Time.timeScale = 0;
+            UIManager.instance.MenuPanelActiveUI(true);
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+            UIManager.instance.MenuPanelActiveUI(false);
+        }
+    }
+
+    void SetImmortalityPlayer()
+    {
+        if (isStartingLevel) { return; }
+
+        InvokeRepeating(nameof(WhiteBlinkFX), 0, 0.2f);
+        isImmortal = true;
+
+        if (isDead)
+            immortalityTimer = immortalityTime * 2;
+        else
+            immortalityTimer = immortalityTime;
     }
 
     void WhiteBlinkFX()
@@ -361,6 +373,55 @@ public class Player : Entity
         gM.DecreasePlayerLifeAmount();
         capsuleCollider.isTrigger = true;
         isDead = true;
+    }
+
+    void RevivePlayer()
+    {
+        FindPositionToRevive();
+        capsuleCollider.isTrigger = false;
+        SetFirstPlayerStage();
+        isDead = false;
+    }
+
+    void SetFireballDirection(GameObject fireBall)
+    {
+        if (facingDir == 1)
+            fireBall.GetComponent<Fireball>().facingDir = 1;
+        else if (facingDir == -1)
+            fireBall.GetComponent<Fireball>().facingDir = -1;
+    }
+
+    void FindPositionToRevive()
+    {
+        int lookingForNewPosAttempts = 10;
+        Vector3 startingPos = transform.position;
+
+        transform.position = new Vector3(transform.position.x - 10f, transform.position.y + 4.5f);
+
+        while (SomethingIsAround() && lookingForNewPosAttempts > 0 ||
+               !GroundBelow() && lookingForNewPosAttempts > 0)
+        {
+            float randomXoffset = UnityEngine.Random.Range(-4f, -1f);
+            transform.position = new Vector3(transform.position.x + randomXoffset, transform.position.y);
+            lookingForNewPosAttempts--;
+        }
+
+        if (!GroundBelow() || SomethingIsAround() || GroundBelow().transform.gameObject.GetComponent<Platform>() != null)
+        {
+            transform.position = startingPos;
+            transform.position = new Vector3(transform.position.x - 2f, transform.position.y + 4.5f);
+        }
+
+        transform.position = new Vector3(transform.position.x, transform.position.y - GroundBelow().distance + (capsuleCollider.size.y / 2) + 0.2f);
+    }
+
+    void PushPlayerBackFromEnemy(Enemy _currentEnemy)
+    {
+        if (transform.position.x > _currentEnemy.transform.position.x)
+            SetVelocity(4, 10);
+
+        if (transform.position.x < _currentEnemy.transform.position.x)
+            SetVelocity(-4, 10);
     }
 
     #region Collision
@@ -601,47 +662,6 @@ public class Player : Entity
     bool leftLegIsAboveEnemy() => Physics2D.Raycast(groundCheck.position, Vector2.down, 0.4f, whatIsEnemy);
 
     bool rightLegIsAboveEnemy() => Physics2D.Raycast(secondGroundCheck.position, Vector2.down, 0.4f, whatIsEnemy);
-
-    void PushPlayerBackFromEnemy(Enemy _currentEnemy)
-    {
-        if (transform.position.x > _currentEnemy.transform.position.x)
-            SetVelocity(4, 10);
-
-        if (transform.position.x < _currentEnemy.transform.position.x)
-            SetVelocity(-4, 10);
-    }
-
-    void RevivePlayer()
-    {
-        FindPositionToRevive();
-        capsuleCollider.isTrigger = false;
-        SetFirstPlayerStage();
-        isDead = false;
-    }
-
-    void FindPositionToRevive()
-    {
-        int lookingForNewPosAttempts = 10;
-        Vector3 startingPos = transform.position;
-
-        transform.position = new Vector3(transform.position.x - 10f, transform.position.y + 4.5f);
-
-        while (SomethingIsAround() && lookingForNewPosAttempts > 0 ||
-               !GroundBelow() && lookingForNewPosAttempts > 0)
-        {
-            float randomXoffset = UnityEngine.Random.Range(-4f, -1f);
-            transform.position = new Vector3(transform.position.x + randomXoffset, transform.position.y);
-            lookingForNewPosAttempts--;
-        }
-
-        if (!GroundBelow() || SomethingIsAround() || GroundBelow().transform.gameObject.GetComponent<Platform>() != null)
-        {
-            transform.position = startingPos;
-            transform.position = new Vector3(transform.position.x - 2f, transform.position.y + 4.5f);
-        }
-
-        transform.position = new Vector3(transform.position.x, transform.position.y - GroundBelow().distance + (capsuleCollider.size.y / 2) + 0.2f);
-    }
 
     bool SomethingIsAround() => Physics2D.BoxCast(transform.position, revivePositionCheck, 0, Vector2.zero, 0, whatIsGround);
 

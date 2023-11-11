@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 
     public bool gameOver;
 
-    float roundTimeTimer;
+    public float roundTimeTimer;
     int score;
 
     UIManager ui;
@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
         ui.UpdateCurrentPlayerStageUI(_stage1, _stage2, _stage3);
     }
 
-    void GameOver()
+    public void GameOver()
     {
         gameOver = true;
         UIManager.instance.GameOverPanelActiveUI(true);
