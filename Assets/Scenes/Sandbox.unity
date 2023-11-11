@@ -4512,8 +4512,8 @@ MonoBehaviour:
   activeColor: {r: 1, g: 1, b: 1, a: 255}
   inactiveColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 0.39215687}
   menuPanel: {fileID: 1496137847}
-  goToMenuInfoPanel: {fileID: 2120551158}
   gameOverPanel: {fileID: 836215554}
+  goToMenuInfoPanel: {fileID: 2120551158}
 --- !u!1 &1124644576
 GameObject:
   m_ObjectHideFlags: 0
@@ -9271,6 +9271,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 980859461}
     m_Modifications:
+    - target: {fileID: 8021538716708325969, guid: 42af9e9b8f8b1ce4c9f596b9de13559f, type: 3}
+      propertyPath: deadStateColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8021538716708325969, guid: 42af9e9b8f8b1ce4c9f596b9de13559f, type: 3}
+      propertyPath: deadStateColor.b
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 8021538716708325969, guid: 42af9e9b8f8b1ce4c9f596b9de13559f, type: 3}
+      propertyPath: deadStateColor.g
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 8021538716708325969, guid: 42af9e9b8f8b1ce4c9f596b9de13559f, type: 3}
+      propertyPath: deadStateColor.r
+      value: 0.50980395
+      objectReference: {fileID: 0}
     - target: {fileID: 8021538716708325971, guid: 42af9e9b8f8b1ce4c9f596b9de13559f, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -9321,6 +9337,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8021538716708325998, guid: 42af9e9b8f8b1ce4c9f596b9de13559f, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8021538718070959623, guid: 42af9e9b8f8b1ce4c9f596b9de13559f, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8021538718070959623, guid: 42af9e9b8f8b1ce4c9f596b9de13559f, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8021538718070959623, guid: 42af9e9b8f8b1ce4c9f596b9de13559f, type: 3}
+      propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

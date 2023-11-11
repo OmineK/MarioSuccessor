@@ -5,6 +5,7 @@ using UnityEngine;
 public class Barnacle : Enemy
 {
     [Header("State info")]
+    [SerializeField] Color deadStateColor;
     public float hideTime;
     public float attackTime;
 
@@ -14,12 +15,14 @@ public class Barnacle : Enemy
     public BarnacleState_Dead deadState { get; private set; }
 
     BoxCollider2D cd;
+    SpriteRenderer sr;
 
     protected override void Awake()
     {
         base.Awake();
 
         cd = GetComponent<BoxCollider2D>();
+        sr = GetComponentInChildren<SpriteRenderer>();
 
         showState = new BarnacleState_ShowUp(this, stateMachine, "Idle", this);
         hideState = new BarnacleState_Hide(this, stateMachine, "Idle", this);
@@ -50,6 +53,8 @@ public class Barnacle : Enemy
     public override void Die()
     {
         isDead = true;
+        cd.isTrigger = true;
+        sr.color = deadStateColor;
         stateMachine.ChangeState(deadState);
     }
 

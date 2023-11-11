@@ -8,6 +8,8 @@ public class BarnacleState_Dead : EnemyState
 
     float deadStateTimer;
 
+    bool showedUp;
+
     public BarnacleState_Dead(Enemy _enemy, EnemyStateMachine _stateMachine, string _animBoolName, Barnacle _barnacleEnemy) : base(_enemy, _stateMachine, _animBoolName)
     {
         this.barnacleEnemy = _barnacleEnemy;
@@ -27,6 +29,12 @@ public class BarnacleState_Dead : EnemyState
         {
             if (!barnacleEnemy.isHidden())
                 enemy.SetVelocity(rb.velocity.x, -2f);
+        }
+
+        if (!barnacleEnemy.isGroundDetected() && !showedUp)
+        {
+            enemy.SetZeroVelocity();
+            showedUp = true;
         }
     }
 
