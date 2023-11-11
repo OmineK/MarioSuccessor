@@ -19,6 +19,9 @@ public class MenuUI : MonoBehaviour
     {
         int firstPlayableLevel = SceneManager.GetActiveScene().buildIndex + 1;
         PlayerPrefs.SetInt("roundStartingScore", 0);
+        PlayerPrefs.SetInt("roundStartingLifeAmount", 3);
+        PlayerPrefs.SetInt("playerStage", 1);
+
         SceneManager.LoadScene(firstPlayableLevel);
     }
 

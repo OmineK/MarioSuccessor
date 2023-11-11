@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -114,6 +115,9 @@ public class UIManager : MonoBehaviour
 
     public void ExitGameButtonUI()
     {
+        if (GameManager.instance.score > PlayerPrefs.GetInt("bestScore"))
+            PlayerPrefs.SetInt("bestScore", GameManager.instance.score);
+
         Debug.Log("Quit");
         Application.Quit();
     }

@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] int playerLifeAmount;
     [SerializeField] float roundTime;
 
     [Header("Current player stage info")]
@@ -20,6 +19,8 @@ public class GameManager : MonoBehaviour
     [NonSerialized] public float roundTimeTimer;
     [NonSerialized] public int scoreOnRoundStart;
     [NonSerialized] public int score;
+    [NonSerialized] public int playerLifeAmount;
+
 
     UIManager ui;
 
@@ -37,6 +38,8 @@ public class GameManager : MonoBehaviour
         roundTimeTimer = roundTime;
 
         score = PlayerPrefs.GetInt("roundStartingScore");
+        playerLifeAmount = PlayerPrefs.GetInt("roundStartingLifeAmount");
+
         scoreOnRoundStart = score;
 
         ui.UpdateScoreUI(score);
@@ -68,6 +71,7 @@ public class GameManager : MonoBehaviour
         if (playerLifeAmount >= 5)
         {
             playerLifeAmount = 5;
+            IncreaseSocre(1000);
             return;
         }
 

@@ -118,11 +118,11 @@ public class Player : Entity
         aM = AudioManager.instance;
         stateMachine.Initialize(idleState);
 
-        if (isOnStage1)
+        if (PlayerPrefs.GetInt("playerStage") == 1)
             SetFirstPlayerStage();
-        else if (isOnStage2)
+        else if (PlayerPrefs.GetInt("playerStage") == 2)
             SetSecondPlayerStage();
-        else if (isOnStage3)
+        else if (PlayerPrefs.GetInt("playerStage") == 3)
             SetThirdPlayerStage();
 
         isStartingLevel = false;
@@ -333,13 +333,13 @@ public class Player : Entity
             canShootTimer = shootingSpeed;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale != 0 && 
+        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale != 0 &&
             UIManager.instance.goToMenuInfoPanel.activeInHierarchy == false)
         {
             Time.timeScale = 0;
             UIManager.instance.MenuPanelActiveUI(true);
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale == 0 && 
+        else if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale == 0 &&
             UIManager.instance.goToMenuInfoPanel.activeInHierarchy == false)
         {
             Time.timeScale = 1;
@@ -659,6 +659,14 @@ public class Player : Entity
                     PlayerPrefs.SetInt("bestScore", gM.score);
 
                 PlayerPrefs.SetInt("roundStartingScore", gM.score);
+                PlayerPrefs.SetInt("roundStartingLifeAmount", gM.playerLifeAmount);
+
+                if (isOnStage1)
+                    PlayerPrefs.SetInt("playerStage", 1);
+                else if (isOnStage2)
+                    PlayerPrefs.SetInt("playerStage", 2);
+                else if (isOnStage3)
+                    PlayerPrefs.SetInt("playerStage", 3);
 
                 isLevelLoading = true;
                 flag.LoadNextLevelAfter(2.5f);
