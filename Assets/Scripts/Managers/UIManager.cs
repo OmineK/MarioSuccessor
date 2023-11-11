@@ -123,5 +123,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         GameOverPanelActiveUI(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        PlayerPrefs.SetInt("startingScore", GameManager.instance.scoreOnRoundStart);
     }
 }

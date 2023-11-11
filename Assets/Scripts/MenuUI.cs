@@ -13,6 +13,7 @@ public class MenuUI : MonoBehaviour
     public void StartGameButton()
     {
         int firstPlayableLevel = SceneManager.GetActiveScene().buildIndex + 1;
+        PlayerPrefs.SetInt("roundStartingScore", 0);
         SceneManager.LoadScene(firstPlayableLevel);
     }
 

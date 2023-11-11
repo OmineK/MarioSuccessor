@@ -16,10 +16,10 @@ public class GameManager : MonoBehaviour
     public bool playerStage2;
     public bool playerStage3;
 
-    public bool gameOver;
-
-    public float roundTimeTimer;
-    int score;
+    [NonSerialized] public bool gameOver;
+    [NonSerialized] public float roundTimeTimer;
+    [NonSerialized] public int scoreOnRoundStart;
+    [NonSerialized] public int score;
 
     UIManager ui;
 
@@ -34,8 +34,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ui = UIManager.instance;
-
         roundTimeTimer = roundTime;
+
+        score = PlayerPrefs.GetInt("roundStartingScore");
+        scoreOnRoundStart = score;
+
         ui.UpdateScoreUI(score);
         ui.UpdateLifesLeftUI(playerLifeAmount);
     }
@@ -96,6 +99,10 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         gameOver = true;
+
+        if (score > PlayerPrefs.GetInt("bestScore"))
+            PlayerPrefs.SetInt("bestScore", score);
+
         UIManager.instance.GameOverPanelActiveUI(true);
 
         Invoke(nameof(StopTimeAfterGameOver), 2);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Player : Entity
 {
@@ -98,7 +99,6 @@ public class Player : Entity
 
         stateMachine = new PlayerStateMachine();
 
-        //Player stage 1
         idleState = new PlayerState_Idle(this, stateMachine, "Idle");
         moveState = new PlayerState_Move(this, stateMachine, "Move");
         jumpState = new PlayerState_Jump(this, stateMachine, "Jump");
@@ -654,6 +654,12 @@ public class Player : Entity
             if (!isLevelLoading)
             {
                 aM.PlaySFX(2);
+
+                if (gM.score > PlayerPrefs.GetInt("bestScore"))
+                    PlayerPrefs.SetInt("bestScore", gM.score);
+
+                PlayerPrefs.SetInt("roundStartingScore", gM.score);
+
                 isLevelLoading = true;
                 flag.LoadNextLevelAfter(2.5f);
                 stateMachine.ChangeState(jumpState);
