@@ -97,7 +97,22 @@ public class GameManager : MonoBehaviour
         playerStage2 = _stage2;
         playerStage3 = _stage3;
 
-        ui.UpdateCurrentPlayerStageUI(_stage1, _stage2, _stage3);
+        if (ui != null)
+            ui.UpdateCurrentPlayerStageUI(_stage1, _stage2, _stage3);
+        else
+            StartCoroutine(nameof(UpdateCurrentPlayerStageUIWithDelay));
+    }
+
+    IEnumerator UpdateCurrentPlayerStageUIWithDelay()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        if (playerStage1)
+            ui.UpdateCurrentPlayerStageUI(true, false, false);
+        else if (playerStage2)
+            ui.UpdateCurrentPlayerStageUI(false, true, false);
+        else if (playerStage3)
+            ui.UpdateCurrentPlayerStageUI(false, false, true);
     }
 
     public void GameOver()
