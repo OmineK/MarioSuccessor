@@ -46,6 +46,8 @@ public class DropBox : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Player>() != null)
         {
+            if (hitsNumber <= 0) { return; }
+
             hitsNumber--;
             rb.velocity = Vector2.up * 3;
 
