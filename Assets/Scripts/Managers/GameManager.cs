@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
     [NonSerialized] public int score;
     [NonSerialized] public int playerLifeAmount;
 
-
     UIManager ui;
 
     void Awake()
@@ -58,6 +57,11 @@ public class GameManager : MonoBehaviour
             roundTimeTimer -= Time.deltaTime;
             ui.UpdateTimeLeftUI(roundTimeTimer);
         }
+    }
+
+    public void StopRoundTimer()
+    {
+
     }
 
     public void IncreaseSocre(int _increaseAmount)

@@ -79,12 +79,11 @@ public class LevelEndFlag : MonoBehaviour
     {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
         int nextScene = currentScene + 1;
-        //int firstPlayableScene = 1;
+        int firstPlayableScene = 1;
 
         if (currentScene == SceneManager.sceneCountInBuildSettings - 1)
         {
-            //TODO: End game screen or change to first playable scene (when added menu scene with index 0)
-            SceneManager.LoadScene(currentScene);
+            SceneManager.LoadScene(firstPlayableScene);
         }
         else
             SceneManager.LoadScene(nextScene);

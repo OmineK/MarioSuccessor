@@ -85,6 +85,7 @@ public class Player : Entity
     public PlayerState_Move moveState { get; private set; }
     public PlayerState_Jump jumpState { get; private set; }
     public PlayerState_Air airState { get; private set; }
+    public PlayerState_Finish finishState { get; private set; }
 
     public PlayerState_Dead deadState { get; private set; }
     #endregion
@@ -103,6 +104,7 @@ public class Player : Entity
         moveState = new PlayerState_Move(this, stateMachine, "Move");
         jumpState = new PlayerState_Jump(this, stateMachine, "Jump");
         airState = new PlayerState_Air(this, stateMachine, "Jump");
+        finishState = new PlayerState_Finish(this, stateMachine, "Jump");
 
         deadState = new PlayerState_Dead(this, stateMachine, "Dead");
     }
@@ -126,6 +128,7 @@ public class Player : Entity
             SetThirdPlayerStage();
 
         isStartingLevel = false;
+        isLevelLoading = false;
     }
 
     protected override void FixedUpdate()
@@ -410,7 +413,7 @@ public class Player : Entity
 
         if (!GroundBelow() || SomethingIsAround() || GroundBelow().transform.gameObject.GetComponent<Platform>() != null)
         {
-            transform.position =  new Vector3(startingPos.x, -6.2f, startingPos.z);
+            transform.position = new Vector3(startingPos.x, -6.2f, startingPos.z);
             transform.position = new Vector3(transform.position.x - 2f, transform.position.y + 4.5f);
         }
 
@@ -668,9 +671,13 @@ public class Player : Entity
                 else if (isOnStage3)
                     PlayerPrefs.SetInt("playerStage", 3);
 
-                isLevelLoading = true;
-                flag.LoadNextLevelAfter(2.5f);
-                stateMachine.ChangeState(jumpState);
+                flag.LoadNextLevelAfter(5f);
+
+                if (!isLevelLoading)
+                {
+                    stateMachine.ChangeState(finishState);
+                    isLevelLoading = true;
+                }
             }
         }
     }
