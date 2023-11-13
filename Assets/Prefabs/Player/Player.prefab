@@ -161,8 +161,8 @@ MonoBehaviour:
   cameraYPos: 0
   normalMoveSpeed: 4
   extraMoveSpeed: 5
-  normalJumpForce: 13
-  extraJumpForce: 12
+  normalJumpForce: 16
+  extraJumpForce: 15
   secondGroundCheck: {fileID: 575363137676247973}
   secondGroundCheckDistance: 0.15
   whatIsEnemy:
