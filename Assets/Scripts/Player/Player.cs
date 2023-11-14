@@ -71,6 +71,7 @@ public class Player : Entity
     public GameManager gM;
 
     public bool isLevelLoading;
+    public bool isPushed;
 
     bool isStartingLevel;
 
@@ -422,12 +423,18 @@ public class Player : Entity
 
     void PushPlayerBackFromEnemy(Enemy _currentEnemy)
     {
+        isPushed = true;
+
         if (transform.position.x > _currentEnemy.transform.position.x)
-            SetVelocity(4, 10);
+            SetVelocity(8, 12);
 
         if (transform.position.x < _currentEnemy.transform.position.x)
-            SetVelocity(-4, 10);
+            SetVelocity(-8, 12);
+
+        Invoke(nameof(CancelPushedInputBlock), 0.4f);
     }
+
+    void CancelPushedInputBlock() => isPushed = false;
 
     #region Collision
 
@@ -484,6 +491,7 @@ public class Player : Entity
                 if (isImmortal)
                 {
                     currentEnemy.Flip();
+                    PushPlayerBackFromEnemy(currentEnemy);
                     return;
                 }
 

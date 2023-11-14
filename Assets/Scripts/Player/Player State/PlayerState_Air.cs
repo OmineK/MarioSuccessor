@@ -18,7 +18,10 @@ public class PlayerState_Air : PlayerState
     {
         base.FixedUpdate();
 
-        player.SetVelocity(player.currentMoveSpeed * 0.8f * xInput, rb.velocity.y);
+        if (player.isPushed)
+            player.SetVelocity(rb.velocity.x, rb.velocity.y);
+        else
+            player.SetVelocity(player.currentMoveSpeed * 0.8f * xInput, rb.velocity.y);
     }
 
     public override void Update()
