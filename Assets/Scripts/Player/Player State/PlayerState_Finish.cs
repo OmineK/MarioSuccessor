@@ -12,12 +12,14 @@ public class PlayerState_Finish : PlayerState
     {
         base.Enter();
 
-        player.SetVelocity(rb.velocity.x, player.currentJumpForce);
+        player.SetVelocity(0, 20);
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+
+        player.SetVelocity(0, rb.velocity.y);
     }
 
     public override void Update()
@@ -30,11 +32,13 @@ public class PlayerState_Finish : PlayerState
             rb.gravityScale = 2f;
 
         if (player.isGroundDetected() || player.isSecondGroundDetected())
-            stateMachine.ChangeState(player.finishState);
+            player.SetVelocity(0, 20);
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        rb.gravityScale = 2f;
     }
 }

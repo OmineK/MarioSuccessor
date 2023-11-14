@@ -463,15 +463,6 @@ public class Player : Entity
         FlagTriggerCollision(_collision);
     }
 
-    void OnTriggerStay2D(Collider2D _collision)
-    {
-        if (_collision.gameObject.GetComponent<LevelEndFlag>() != null)
-        {
-            if (isGroundDetected() || isSecondGroundDetected())
-                stateMachine.ChangeState(jumpState);
-        }
-    }
-
     void EnemyCollision(Collision2D _collision)
     {
         if (_collision.gameObject.GetComponent<Enemy>() != null)
@@ -650,35 +641,29 @@ public class Player : Entity
 
     void FlagTriggerCollision(Collider2D _collision)
     {
-        if (_collision.gameObject.GetComponent<LevelEndFlag>() != null)
+        if ((_collision.gameObject.GetComponent<LevelEndFlag>() != null) && !isLevelLoading)
         {
             LevelEndFlag flag = _collision.gameObject.GetComponent<LevelEndFlag>();
 
-            if (!isLevelLoading)
-            {
-                aM.PlaySFX(2);
+            aM.PlaySFX(2);
 
-                if (gM.score > PlayerPrefs.GetInt("bestScore"))
-                    PlayerPrefs.SetInt("bestScore", gM.score);
+            if (gM.score > PlayerPrefs.GetInt("bestScore"))
+                PlayerPrefs.SetInt("bestScore", gM.score);
 
-                PlayerPrefs.SetInt("roundStartingScore", gM.score);
-                PlayerPrefs.SetInt("roundStartingLifeAmount", gM.playerLifeAmount);
+            PlayerPrefs.SetInt("roundStartingScore", gM.score);
+            PlayerPrefs.SetInt("roundStartingLifeAmount", gM.playerLifeAmount);
 
-                if (isOnStage1)
-                    PlayerPrefs.SetInt("playerStage", 1);
-                else if (isOnStage2)
-                    PlayerPrefs.SetInt("playerStage", 2);
-                else if (isOnStage3)
-                    PlayerPrefs.SetInt("playerStage", 3);
+            if (isOnStage1)
+                PlayerPrefs.SetInt("playerStage", 1);
+            else if (isOnStage2)
+                PlayerPrefs.SetInt("playerStage", 2);
+            else if (isOnStage3)
+                PlayerPrefs.SetInt("playerStage", 3);
 
-                flag.LoadNextLevelAfter(5f);
+            flag.LoadNextLevelAfter(5f);
 
-                if (!isLevelLoading)
-                {
-                    stateMachine.ChangeState(finishState);
-                    isLevelLoading = true;
-                }
-            }
+            stateMachine.ChangeState(finishState);
+            isLevelLoading = true;
         }
     }
 

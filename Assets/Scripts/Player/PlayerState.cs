@@ -39,10 +39,7 @@ public class PlayerState
         player.anim.SetFloat("yVelocity", rb.velocity.y);
 
         if (player.isDead && player.stateMachine.currentState != player.deadState)
-        {
-            if (player.gM.playerStage1)
-                stateMachine.ChangeState(player.deadState);
-        }
+            stateMachine.ChangeState(player.deadState);
     }
 
     public virtual void Exit()
