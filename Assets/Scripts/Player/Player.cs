@@ -161,6 +161,7 @@ public class Player : Entity
         moveState = new PlayerState_Move(this, stateMachine, "Move");
         jumpState = new PlayerState_Jump(this, stateMachine, "Jump");
         airState = new PlayerState_Air(this, stateMachine, "Jump");
+        finishState = new PlayerState_Finish(this, stateMachine, "Jump");
 
         deadState = new PlayerState_Dead(this, stateMachine, "Dead");
         #endregion
@@ -200,6 +201,7 @@ public class Player : Entity
         moveState = new PlayerState_Move(this, stateMachine, "Move2");
         jumpState = new PlayerState_Jump(this, stateMachine, "Jump2");
         airState = new PlayerState_Air(this, stateMachine, "Jump2");
+        finishState = new PlayerState_Finish(this, stateMachine, "Jump2");
 
         deadState = new PlayerState_Dead(this, stateMachine, "Dead2");
         #endregion
@@ -239,6 +241,7 @@ public class Player : Entity
         moveState = new PlayerState_Move(this, stateMachine, "Move3");
         jumpState = new PlayerState_Jump(this, stateMachine, "Jump3");
         airState = new PlayerState_Air(this, stateMachine, "Jump3");
+        finishState = new PlayerState_Finish(this, stateMachine, "Jump3");
 
         deadState = new PlayerState_Dead(this, stateMachine, "Dead3");
         #endregion
