@@ -53,14 +53,14 @@ public class DropBox : MonoBehaviour
 
             if (extraDropPref == null || extraDropIsDropped)
             {
-                AudioManager.instance.PlaySFX(6);
+                AudioManager.instance.PlaySFXwithPitchChange(6);
                 GameManager.instance.IncreaseSocre(scoreIncreaseAmount);
                 coinParticle.Play();
             }
             else
             {
                 extraDropIsDropped = true;
-                AudioManager.instance.PlaySFX(7);
+                AudioManager.instance.PlaySFXwithPitchChange(7);
                 Instantiate(extraDropPref, transform.position, Quaternion.identity);
             }
 

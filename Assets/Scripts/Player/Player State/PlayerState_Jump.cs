@@ -16,7 +16,7 @@ public class PlayerState_Jump : PlayerState
         player.SetVelocity(rb.velocity.x, player.currentJumpForce);
 
         if (!player.isLevelLoading)
-            player.aM.PlaySFX(4);
+            player.aM.PlaySFXwithPitchChange(4);
     }
 
     public override void FixedUpdate()

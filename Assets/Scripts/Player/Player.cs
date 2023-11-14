@@ -312,7 +312,7 @@ public class Player : Entity
     {
         if (gM.roundTimeTimer <= 0 && !gM.gameOver)
         {
-            aM.PlaySFX(8);
+            aM.PlaySFXwithPitchChange(8);
 
             stateMachine.ChangeState(deadState);
             capsuleCollider.isTrigger = true;
@@ -326,7 +326,7 @@ public class Player : Entity
     {
         if (isOnStage3 && canShoot && Input.GetKeyDown(KeyCode.Z))
         {
-            aM.PlaySFX(1);
+            aM.PlaySFXwithPitchChange(1);
 
             GameObject fireBall = Instantiate(fireBallPref,
                 new Vector3(transform.position.x + (0.35f * facingDir), transform.position.y + 0.3f), Quaternion.identity);
@@ -374,7 +374,7 @@ public class Player : Entity
 
     void PlayerDie()
     {
-        aM.PlaySFX(8);
+        aM.PlaySFXwithPitchChange(8);
 
         gM.DecreasePlayerLifeAmount();
         capsuleCollider.isTrigger = true;
@@ -483,7 +483,7 @@ public class Player : Entity
                 gM.IncreaseSocre(currentEnemy.scoreValue);
                 currentEnemy.Die();
 
-                aM.PlaySFX(5);
+                aM.PlaySFXwithPitchChange(5);
                 SetVelocity(0, 14);
             }
             else
@@ -500,7 +500,7 @@ public class Player : Entity
                     PushPlayerBackFromEnemy(currentEnemy);
                     SetSecondPlayerStage();
 
-                    aM.PlaySFX(10);
+                    aM.PlaySFXwithPitchChange(10);
 
                     if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
                         transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
@@ -511,7 +511,7 @@ public class Player : Entity
                     PushPlayerBackFromEnemy(currentEnemy);
                     SetFirstPlayerStage();
 
-                    aM.PlaySFX(10);
+                    aM.PlaySFXwithPitchChange(10);
 
                     if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
                         transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
@@ -532,7 +532,7 @@ public class Player : Entity
     {
         if (_collision.gameObject.GetComponent<ExtraLifeDrop>() != null)
         {
-            aM.PlaySFX(3);
+            aM.PlaySFXwithPitchChange(3);
 
             gM.IncreasePlayerLifeAmount();
             Destroy(_collision.gameObject);
@@ -543,7 +543,7 @@ public class Player : Entity
     {
         if (_collision.gameObject.GetComponent<StageUpDrop>() != null)
         {
-            aM.PlaySFX(3);
+            aM.PlaySFXwithPitchChange(3);
 
             if (gM.playerStage1 && !isImmortal)
                 SetSecondPlayerStage();
@@ -564,7 +564,7 @@ public class Player : Entity
     {
         if (_collision.gameObject.GetComponent<Springboard>() != null)
         {
-            aM.PlaySFX(9);
+            aM.PlaySFXwithPitchChange(9);
 
             Springboard springboard = _collision.gameObject.GetComponent<Springboard>();
 
@@ -601,7 +601,7 @@ public class Player : Entity
     {
         if (_collision.gameObject.GetComponentInParent<FireObstacle>() != null)
         {
-            aM.PlaySFX(0);
+            aM.PlaySFXwithPitchChange(0);
 
             FireObstacle fireObstacle = _collision.gameObject.GetComponentInParent<FireObstacle>();
 
@@ -616,12 +616,12 @@ public class Player : Entity
 
             if (isOnStage3)
             {
-                aM.PlaySFX(10);
+                aM.PlaySFXwithPitchChange(10);
                 SetSecondPlayerStage();
             }
             else if (isOnStage2)
             {
-                aM.PlaySFX(10);
+                aM.PlaySFXwithPitchChange(10);
                 SetFirstPlayerStage();
             }
             else if (isOnStage1)
@@ -653,7 +653,7 @@ public class Player : Entity
         {
             LevelEndFlag flag = _collision.gameObject.GetComponent<LevelEndFlag>();
 
-            aM.PlaySFX(2);
+            aM.PlaySFXwithPitchChange(2);
 
             if (gM.score > PlayerPrefs.GetInt("bestScore"))
                 PlayerPrefs.SetInt("bestScore", gM.score);
