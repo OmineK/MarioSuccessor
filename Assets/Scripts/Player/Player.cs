@@ -675,6 +675,7 @@ public class Player : Entity
 
             stateMachine.ChangeState(finishState);
             isLevelLoading = true;
+            gM.stopRoundTimer = true;
         }
     }
 

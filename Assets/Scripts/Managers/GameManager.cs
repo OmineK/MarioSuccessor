@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     [NonSerialized] public int score;
     [NonSerialized] public int playerLifeAmount;
 
+    public bool stopRoundTimer;
+
     UIManager ui;
 
     void Awake()
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
     {
         ui = UIManager.instance;
         roundTimeTimer = roundTime;
+        stopRoundTimer = false;
 
         score = PlayerPrefs.GetInt("roundStartingScore");
         playerLifeAmount = PlayerPrefs.GetInt("roundStartingLifeAmount");
@@ -52,16 +55,11 @@ public class GameManager : MonoBehaviour
 
     void RoundTimer()
     {
-        if (roundTimeTimer >= 0 && !gameOver)
+        if (roundTimeTimer >= 0 && !gameOver && !stopRoundTimer)
         {
             roundTimeTimer -= Time.deltaTime;
             ui.UpdateTimeLeftUI(roundTimeTimer);
         }
-    }
-
-    public void StopRoundTimer()
-    {
-
     }
 
     public void IncreaseSocre(int _increaseAmount)
