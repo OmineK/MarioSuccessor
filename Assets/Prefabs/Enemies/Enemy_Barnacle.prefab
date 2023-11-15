@@ -105,6 +105,7 @@ MonoBehaviour:
     m_Bits: 8
   moveSpeed: 1
   scoreValue: 130
+  deadStateColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
   hideTime: 5
   attackTime: 4
 --- !u!1 &8021538717797969286
