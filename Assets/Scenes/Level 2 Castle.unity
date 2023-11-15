@@ -18564,7 +18564,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7192872918316982838, guid: 681166fd660c7ba49a95752528549bd7, type: 3}
       propertyPath: roundTime
-      value: 180
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 7192872918316982839, guid: 681166fd660c7ba49a95752528549bd7, type: 3}
       propertyPath: m_RootOrder

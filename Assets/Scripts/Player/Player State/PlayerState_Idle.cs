@@ -29,7 +29,7 @@ public class PlayerState_Idle : PlayerState_Grounded
         if (xInput != 0)
             stateMachine.ChangeState(player.moveState);
 
-        if (rb.velocity.y < 0)
+        if (!player.isGroundDetected() && !player.isSecondGroundDetected())
             stateMachine.ChangeState(player.airState);
     }
 
