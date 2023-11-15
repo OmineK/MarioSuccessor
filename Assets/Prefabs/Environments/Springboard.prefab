@@ -146,5 +146,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2ec43724fbd914c8898630b885954d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStage1PushForce: 22
-  playerStage2and3PushForce: 23
+  playerStage1PushForce: 24
+  playerStage2and3PushForce: 25
