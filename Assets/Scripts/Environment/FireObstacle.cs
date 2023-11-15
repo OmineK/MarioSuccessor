@@ -12,8 +12,8 @@ public class FireObstacle : MonoBehaviour
     [SerializeField] Transform mainBody;
 
     [Header("Rotate direction")]
-    [SerializeField] bool goRight;
     [SerializeField] bool goLeft;
+    [SerializeField] bool goRight;
 
     float rotateDir;
     float worldRotateDir;
@@ -21,16 +21,16 @@ public class FireObstacle : MonoBehaviour
 
     void Start()
     {
-        if (goRight)
+        if (goLeft)
         {
-            goLeft = false;
+            goRight = false;
             rotateDir = 1;
         }
-        else if (goLeft)
+        else if (goRight)
             rotateDir = -1;
-        else if (!goRight && !goLeft)
+        else if (!goLeft && !goRight)
         {
-            goRight = true;
+            goLeft = true;
             rotateDir = 1;
         }
     }
