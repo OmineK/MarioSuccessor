@@ -567,14 +567,14 @@ public class Player : Entity
     {
         if (_collision.gameObject.GetComponent<Springboard>() != null)
         {
-            aM.PlaySFXwithPitchChange(9);
-
             Springboard springboard = _collision.gameObject.GetComponent<Springboard>();
 
             float lowestPointOfPlayerPos = transform.position.y - (capsuleCollider.size.y / 2);
 
             if (lowestPointOfPlayerPos + 0.1f > springboard.transform.position.y - 0.2f)
             {
+                aM.PlaySFXwithPitchChange(9);
+
                 springboard.anim.SetTrigger("Jump");
 
                 if (isOnStage1)
