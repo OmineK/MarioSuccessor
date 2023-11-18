@@ -343,6 +343,9 @@ public class Player : Entity
         if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale != 0 &&
             UIManager.instance.goToMenuInfoPanel.activeInHierarchy == false)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
             Time.timeScale = 0;
             UIManager.instance.MenuPanelActiveUI(true);
         }
@@ -351,6 +354,9 @@ public class Player : Entity
         {
             Time.timeScale = 1;
             UIManager.instance.MenuPanelActiveUI(false);
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 

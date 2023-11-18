@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level 4 Speedrun.unity
     guid: 9f46e6fd347a70449abadf4249ca4f3a
+  - enabled: 1
+    path: Assets/Scenes/Level 5 Boss.unity
+    guid: 3769ebbbb56d7664a859a3c38cd4d369
   m_configObjects: {}

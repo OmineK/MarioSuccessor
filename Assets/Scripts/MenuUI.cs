@@ -17,6 +17,9 @@ public class MenuUI : MonoBehaviour
 
     public void StartGameButton()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         int firstPlayableLevel = SceneManager.GetActiveScene().buildIndex + 1;
         PlayerPrefs.SetInt("roundStartingScore", 0);
         PlayerPrefs.SetInt("roundStartingLifeAmount", 3);

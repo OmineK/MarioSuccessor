@@ -91,6 +91,9 @@ public class UIManager : MonoBehaviour
 
     public void BackToGameButtonUI()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         Time.timeScale = 1;
         MenuPanelActiveUI(false);
     }
@@ -124,6 +127,9 @@ public class UIManager : MonoBehaviour
 
     public void ResetButtonUI()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         Time.timeScale = 1;
         GameOverPanelActiveUI(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
