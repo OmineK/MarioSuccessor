@@ -483,11 +483,29 @@ public class Player : Entity
 
             if (leftLegIsAboveEnemy() || rightLegIsAboveEnemy())
             {
-                gM.IncreaseSocre(currentEnemy.scoreValue);
-                currentEnemy.Die();
+                if (_collision.gameObject.GetComponent<Boss>() != null)
+                {
+                    Boss boss = _collision.gameObject.GetComponent<Boss>();
 
-                aM.PlaySFXwithPitchChange(5);
-                SetVelocity(0, 14);
+                    aM.PlaySFXwithPitchChange(5);
+                    SetVelocity(0, 14);
+
+                    boss.bossHP--;
+
+                    if (boss.bossHP <= 0)
+                    {
+                        gM.IncreaseSocre(boss.scoreValue);
+                        boss.Die();
+                    }
+                }
+                else
+                {
+                    gM.IncreaseSocre(currentEnemy.scoreValue);
+                    currentEnemy.Die();
+
+                    aM.PlaySFXwithPitchChange(5);
+                    SetVelocity(0, 14);
+                }
             }
             else
             {
