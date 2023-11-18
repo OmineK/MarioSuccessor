@@ -46,7 +46,7 @@ public class Fireball : MonoBehaviour
 
         if (jump)
         {
-            rb.AddForce(new Vector3(0 , jumpForce / 100, 0));
+            rb.AddForce(new Vector3(0, jumpForce / 100, 0));
             jump = false;
         }
     }
@@ -80,8 +80,21 @@ public class Fireball : MonoBehaviour
         {
             AudioManager.instance.PlaySFXwithPitchChange(12);
             Enemy currentEnemy = _collision.gameObject.GetComponent<Enemy>();
-            GameManager.instance.IncreaseSocre(currentEnemy.scoreValue / 2);
-            currentEnemy.Die();
+
+            if (_collision.gameObject.GetComponent<Boss>() != null)
+            {
+                Boss boss = _collision.gameObject.GetComponent<Boss>();
+
+                boss.bossHP--;
+
+                if (boss.bossHP <= 0)
+                    boss.Die();
+            }
+            else
+            {     
+                GameManager.instance.IncreaseSocre(currentEnemy.scoreValue / 2);
+                currentEnemy.Die();
+            }
 
             GameObject explosion = Instantiate(fireballExplosionPref, transform.position, Quaternion.identity);
             Destroy(explosion.gameObject, 0.5f);
