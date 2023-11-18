@@ -15,6 +15,8 @@ public class BossState_Dead : EnemyState
     {
         base.Enter();
 
+        bossEnemy.flag.SetActive(true);
+
         enemy.SetVelocity(0, 4);
     }
 

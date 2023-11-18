@@ -4487,6 +4487,7 @@ MonoBehaviour:
   bossFireballPref: {fileID: 6264043747222653824, guid: cea13f9ec3be9174c88901a1a886ebd7, type: 3}
   fireballSpawnTransform: {fileID: 763487059}
   bossHP: 15
+  flag: {fileID: 1590733005}
 --- !u!1 &1124644576
 GameObject:
   m_ObjectHideFlags: 0
@@ -5752,6 +5753,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1496137847}
   m_CullTransparentMesh: 1
+--- !u!1 &1590733005 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6964064980694525247, guid: f3f0d6de2a5a1104c9d70fc60a7d462c, type: 3}
+  m_PrefabInstance: {fileID: 6964064979021366971}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1625961114
 GameObject:
   m_ObjectHideFlags: 0
@@ -7763,11 +7769,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6964064980694525245, guid: f3f0d6de2a5a1104c9d70fc60a7d462c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5469971
+      value: 3.828247
       objectReference: {fileID: 0}
     - target: {fileID: 6964064980694525245, guid: f3f0d6de2a5a1104c9d70fc60a7d462c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.7344503
+      value: 1.6405497
       objectReference: {fileID: 0}
     - target: {fileID: 6964064980694525245, guid: f3f0d6de2a5a1104c9d70fc60a7d462c, type: 3}
       propertyPath: m_LocalPosition.z

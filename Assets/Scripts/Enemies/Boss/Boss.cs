@@ -14,6 +14,9 @@ public class Boss : Enemy
     [Header("Boss hp info")]
     public int bossHP;
 
+    [Header("Flag")]
+    public GameObject flag;
+
     public BossState_Move moveState { get; private set; }
     public BossState_Shoot shootState { get; private set; }
     public BossState_Dead deadState { get; private set; }
