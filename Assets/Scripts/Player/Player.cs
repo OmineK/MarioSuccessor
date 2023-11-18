@@ -488,7 +488,10 @@ public class Player : Entity
                     Boss boss = _collision.gameObject.GetComponent<Boss>();
 
                     aM.PlaySFXwithPitchChange(5);
-                    SetVelocity(0, 14);
+
+                    int randomYVelo = UnityEngine.Random.Range(14, 20);
+
+                    SetVelocity(0, randomYVelo);
 
                     boss.bossHP--;
 
@@ -497,6 +500,8 @@ public class Player : Entity
                         gM.IncreaseSocre(boss.scoreValue);
                         boss.Die();
                     }
+
+                    return;
                 }
                 else
                 {
