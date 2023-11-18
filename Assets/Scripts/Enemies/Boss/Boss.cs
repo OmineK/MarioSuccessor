@@ -7,6 +7,10 @@ public class Boss : Enemy
     [Space]
     public Transform player;
 
+    [Header("Fireball info")]
+    public GameObject bossFireballPref;
+    [SerializeField] Transform fireballSpawnTransform;
+
     [Header("Boss hp info")]
     public int bossHP;
 
@@ -41,5 +45,11 @@ public class Boss : Enemy
 
         if (isDead && stateMachine.currentState != deadState)
             stateMachine.ChangeState(deadState);
+    }
+
+    public void CreateBossFireball()
+    {
+        GameObject bossFireball = Instantiate(bossFireballPref, fireballSpawnTransform.position, Quaternion.identity);
+        bossFireball.GetComponent<BossFireball>().player = player;
     }
 }

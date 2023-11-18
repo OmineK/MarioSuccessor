@@ -27,6 +27,7 @@ public class BossFireball : MonoBehaviour
     {
         RotationHandler();
         LifeTimeHandler();
+        Movement();
     }
 
     void RotationHandler()
@@ -43,10 +44,16 @@ public class BossFireball : MonoBehaviour
             AudioManager.instance.PlaySFXwithPitchChange(12);
 
             GameObject explode = Instantiate(fireballExplosionPref, transform.position, Quaternion.identity);
-            explode.GetComponent<ParticleSystem>().startColor = explodeColor;
+            var explodeMain = explode.GetComponent<ParticleSystem>().main;
+            explodeMain.startColor = explodeColor;
 
             Destroy(explode, 0.5f);
             Destroy(this.gameObject);
         }
+    }
+    void Movement()
+    {
+        if (player.transform != null)
+            transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
     }
 }

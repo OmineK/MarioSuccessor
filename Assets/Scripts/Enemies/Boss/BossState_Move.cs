@@ -5,6 +5,7 @@ using UnityEngine;
 public class BossState_Move : EnemyState
 {
     float changeDirectionTimer;
+    float shootTimer;
 
     bool followWrongDirection;
     bool directionTimerReset;
@@ -38,6 +39,7 @@ public class BossState_Move : EnemyState
             enemy.Flip();
 
         BossDirectrionMoveController();
+        ShootStateChanger();
     }
 
     public override void Exit()
@@ -67,5 +69,21 @@ public class BossState_Move : EnemyState
             enemy.Flip();
             followWrongDirection = false;
         }
+    }
+
+    void ShootStateChanger()
+    {
+        if (player.position.y - bossEnemy.transform.position.y > 3.9f)
+        {
+            shootTimer -= Time.deltaTime;
+
+            if (shootTimer <= -2f)
+            {
+                stateMachine.ChangeState(bossEnemy.shootState);
+                shootTimer = 0;
+            }
+        }
+        else
+            shootTimer = 0;
     }
 }
