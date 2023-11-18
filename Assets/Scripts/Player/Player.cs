@@ -424,7 +424,7 @@ public class Player : Entity
         if (!GroundBelow() || SomethingIsAround() || GroundBelow().transform.gameObject.GetComponent<Platform>() != null)
         {
             transform.position = new Vector3(startingPos.x, -6.2f, startingPos.z);
-            transform.position = new Vector3(transform.position.x, transform.position.y + 4.5f);
+            transform.position = new Vector3(transform.position.x, transform.position.y + 10f);
         }
 
         transform.position = new Vector3(transform.position.x, transform.position.y - GroundBelow().distance + (capsuleCollider.size.y / 2) + 0.2f);
