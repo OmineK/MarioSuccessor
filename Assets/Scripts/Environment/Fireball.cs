@@ -64,7 +64,7 @@ public class Fireball : MonoBehaviour
             Destroy(this.gameObject);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D _collision)
     {
         jump = true;
 
@@ -76,10 +76,10 @@ public class Fireball : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if (collision.gameObject.GetComponent<Enemy>() != null)
+        if (_collision.gameObject.GetComponent<Enemy>() != null)
         {
             AudioManager.instance.PlaySFXwithPitchChange(12);
-            Enemy currentEnemy = collision.gameObject.GetComponent<Enemy>();
+            Enemy currentEnemy = _collision.gameObject.GetComponent<Enemy>();
             GameManager.instance.IncreaseSocre(currentEnemy.scoreValue / 2);
             currentEnemy.Die();
 

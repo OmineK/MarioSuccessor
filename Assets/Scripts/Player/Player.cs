@@ -471,6 +471,7 @@ public class Player : Entity
     {
         CoinTriggerCollision(_collision);
         FlagTriggerCollision(_collision);
+        BossFireballCollision(_collision);
     }
 
     void EnemyCollision(Collision2D _collision)
@@ -699,6 +700,32 @@ public class Player : Entity
             stateMachine.ChangeState(finishState);
             isLevelLoading = true;
             gM.stopRoundTimer = true;
+        }
+    }
+
+    void BossFireballCollision(Collider2D _collision)
+    {
+        if (_collision.GetComponent<BossFireball>() != null)
+        {
+            if (isImmortal || isDead) { return; }
+
+            if (isOnStage3)
+            {
+                SetSecondPlayerStage();
+                aM.PlaySFXwithPitchChange(10);
+            }
+            else if (isOnStage2)
+            {
+                SetFirstPlayerStage();
+                aM.PlaySFXwithPitchChange(10);
+            }
+            else if (isOnStage1)
+            {
+                PlayerDie();
+
+                if (gM.gameOver == false)
+                    Invoke(nameof(RevivePlayer), 5f);
+            }
         }
     }
 

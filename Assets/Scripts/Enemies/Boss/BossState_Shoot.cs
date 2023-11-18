@@ -34,7 +34,7 @@ public class BossState_Shoot : EnemyState
 
         shootTimer -= Time.deltaTime;
 
-        if (shootTimer <= 0.5f && shoot)
+        if (shootTimer <= 0.5f && shoot && bossEnemy.player.GetComponent<Player>().isDead == false)
         {
             bossEnemy.CreateBossFireball();
             shoot = false;

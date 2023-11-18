@@ -28,6 +28,9 @@ public class BossFireball : MonoBehaviour
         RotationHandler();
         LifeTimeHandler();
         Movement();
+
+        if (player.GetComponent<Player>().isDead)
+            FireballExplosion();
     }
 
     void RotationHandler()
@@ -40,21 +43,34 @@ public class BossFireball : MonoBehaviour
         lifeTimer -= Time.deltaTime;
 
         if (lifeTimer <= 0)
-        {
-            AudioManager.instance.PlaySFXwithPitchChange(12);
-
-            GameObject explode = Instantiate(fireballExplosionPref, transform.position, Quaternion.identity);
-            explode.transform.localScale = transform.localScale;
-            var explodeMain = explode.GetComponent<ParticleSystem>().main;
-            explodeMain.startColor = explodeColor;
-
-            Destroy(explode, 0.5f);
-            Destroy(this.gameObject);
-        }
+            FireballExplosion();
     }
+
     void Movement()
     {
         if (player.transform != null)
             transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
+    }
+
+    void FireballExplosion()
+    {
+        AudioManager.instance.PlaySFXwithPitchChange(12);
+
+        GameObject explosion = Instantiate(fireballExplosionPref, transform.position, Quaternion.identity);
+        explosion.transform.localScale = transform.localScale;
+        var explosionMain = explosion.GetComponent<ParticleSystem>().main;
+        explosionMain.startColor = explodeColor;
+
+        Destroy(explosion.gameObject, 0.5f);
+        Destroy(this.gameObject);
+    }
+
+    void OnTriggerEnter2D(Collider2D _collision)
+    {
+        if (_collision.gameObject.GetComponent<Player>() != null)
+        {
+            if (!player.GetComponent<Player>().isDead)
+                FireballExplosion();
+        }
     }
 }
