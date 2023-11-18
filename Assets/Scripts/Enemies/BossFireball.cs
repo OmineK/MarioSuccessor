@@ -44,6 +44,7 @@ public class BossFireball : MonoBehaviour
             AudioManager.instance.PlaySFXwithPitchChange(12);
 
             GameObject explode = Instantiate(fireballExplosionPref, transform.position, Quaternion.identity);
+            explode.transform.localScale = transform.localScale;
             var explodeMain = explode.GetComponent<ParticleSystem>().main;
             explodeMain.startColor = explodeColor;
 

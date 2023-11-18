@@ -24,7 +24,7 @@ public class Boss : Enemy
 
         moveState = new BossState_Move(this, stateMachine, "Move", this);
         shootState = new BossState_Shoot(this, stateMachine, "Shoot", this);
-        deadState = new BossState_Dead(this, stateMachine, "Shoot", this);
+        deadState = new BossState_Dead(this, stateMachine, "Dead", this);
     }
 
     protected override void Start()
