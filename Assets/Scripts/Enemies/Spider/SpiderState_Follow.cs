@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class SpiderState_Follow : EnemyState
@@ -95,7 +92,7 @@ public class SpiderState_Follow : EnemyState
         }
 
         if (enemy.isWallDetected() || !enemy.isGroundDetected())
-                enemy.Flip();
+            enemy.Flip();
     }
 
 }

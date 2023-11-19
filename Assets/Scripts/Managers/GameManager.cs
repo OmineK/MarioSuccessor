@@ -126,6 +126,9 @@ public class GameManager : MonoBehaviour
 
         UIManager.instance.GameOverPanelActiveUI(true);
 
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         Invoke(nameof(StopTimeAfterGameOver), 2);
     }
 
