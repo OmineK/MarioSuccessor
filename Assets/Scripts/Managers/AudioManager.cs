@@ -20,15 +20,5 @@ public class AudioManager : MonoBehaviour
             instance = this;
     }
 
-    public void PlaySFXwithPitchChange(int _sfxIndex)
-    {
-        audioSource.pitch = Random.Range(0.9f, 1.1f);
-        audioSource.PlayOneShot(sfx[_sfxIndex]);
-    }
-
-    public void PlaySFX(int _sfxIndex)
-    {
-        audioSource.pitch = 1;
-        audioSource.PlayOneShot(sfx[_sfxIndex]);
-    }
+    public void PlaySFX(int _sfxIndex) => audioSource.PlayOneShot(sfx[_sfxIndex]);
 }

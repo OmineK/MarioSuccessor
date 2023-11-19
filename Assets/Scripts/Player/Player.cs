@@ -315,7 +315,7 @@ public class Player : Entity
     {
         if (gM.roundTimeTimer <= 0 && !gM.gameOver)
         {
-            aM.PlaySFXwithPitchChange(8);
+            aM.PlaySFX(8);
 
             stateMachine.ChangeState(deadState);
             capsuleCollider.isTrigger = true;
@@ -329,7 +329,7 @@ public class Player : Entity
     {
         if (isOnStage3 && canShoot && Input.GetKeyDown(KeyCode.Z))
         {
-            aM.PlaySFXwithPitchChange(1);
+            aM.PlaySFX(1);
 
             GameObject fireBall = Instantiate(fireBallPref,
                 new Vector3(transform.position.x + (0.35f * facingDir), transform.position.y + 0.3f), Quaternion.identity);
@@ -383,7 +383,7 @@ public class Player : Entity
 
     void PlayerDie()
     {
-        aM.PlaySFXwithPitchChange(8);
+        aM.PlaySFX(8);
 
         gM.DecreasePlayerLifeAmount();
         capsuleCollider.isTrigger = true;
@@ -494,7 +494,7 @@ public class Player : Entity
                 {
                     Boss boss = _collision.gameObject.GetComponent<Boss>();
 
-                    aM.PlaySFXwithPitchChange(5);
+                    aM.PlaySFX(5);
 
                     int randomYVelo = UnityEngine.Random.Range(14, 20);
 
@@ -515,7 +515,7 @@ public class Player : Entity
                     gM.IncreaseSocre(currentEnemy.scoreValue);
                     currentEnemy.Die();
 
-                    aM.PlaySFXwithPitchChange(5);
+                    aM.PlaySFX(5);
                     SetVelocity(0, 14);
                 }
             }
@@ -533,7 +533,7 @@ public class Player : Entity
                     PushPlayerBackFromEnemy(currentEnemy);
                     SetSecondPlayerStage();
 
-                    aM.PlaySFXwithPitchChange(10);
+                    aM.PlaySFX(10);
 
                     if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
                         transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
@@ -544,7 +544,7 @@ public class Player : Entity
                     PushPlayerBackFromEnemy(currentEnemy);
                     SetFirstPlayerStage();
 
-                    aM.PlaySFXwithPitchChange(10);
+                    aM.PlaySFX(10);
 
                     if (transform.position.x < currentEnemy.transform.position.x && currentEnemy.facingDir == -1 ||
                         transform.position.x > currentEnemy.transform.position.x && currentEnemy.facingDir == 1)
@@ -565,7 +565,7 @@ public class Player : Entity
     {
         if (_collision.gameObject.GetComponent<ExtraLifeDrop>() != null)
         {
-            aM.PlaySFXwithPitchChange(3);
+            aM.PlaySFX(3);
 
             gM.IncreasePlayerLifeAmount();
             Destroy(_collision.gameObject);
@@ -576,7 +576,7 @@ public class Player : Entity
     {
         if (_collision.gameObject.GetComponent<StageUpDrop>() != null)
         {
-            aM.PlaySFXwithPitchChange(3);
+            aM.PlaySFX(3);
 
             if (gM.playerStage1 && !isImmortal)
                 SetSecondPlayerStage();
@@ -603,7 +603,7 @@ public class Player : Entity
 
             if (lowestPointOfPlayerPos + 0.1f > springboard.transform.position.y - 0.2f)
             {
-                aM.PlaySFXwithPitchChange(9);
+                aM.PlaySFX(9);
 
                 springboard.anim.SetTrigger("Jump");
 
@@ -634,7 +634,7 @@ public class Player : Entity
     {
         if (_collision.gameObject.GetComponentInParent<FireObstacle>() != null)
         {
-            aM.PlaySFXwithPitchChange(0);
+            aM.PlaySFX(0);
 
             FireObstacle fireObstacle = _collision.gameObject.GetComponentInParent<FireObstacle>();
 
@@ -649,12 +649,12 @@ public class Player : Entity
 
             if (isOnStage3)
             {
-                aM.PlaySFXwithPitchChange(10);
+                aM.PlaySFX(10);
                 SetSecondPlayerStage();
             }
             else if (isOnStage2)
             {
-                aM.PlaySFXwithPitchChange(10);
+                aM.PlaySFX(10);
                 SetFirstPlayerStage();
             }
             else if (isOnStage1)
@@ -686,7 +686,7 @@ public class Player : Entity
         {
             LevelEndFlag flag = _collision.gameObject.GetComponent<LevelEndFlag>();
 
-            aM.PlaySFXwithPitchChange(2);
+            aM.PlaySFX(2);
 
             if (gM.score > PlayerPrefs.GetInt("bestScore"))
                 PlayerPrefs.SetInt("bestScore", gM.score);
@@ -718,12 +718,12 @@ public class Player : Entity
             if (isOnStage3)
             {
                 SetSecondPlayerStage();
-                aM.PlaySFXwithPitchChange(10);
+                aM.PlaySFX(10);
             }
             else if (isOnStage2)
             {
                 SetFirstPlayerStage();
-                aM.PlaySFXwithPitchChange(10);
+                aM.PlaySFX(10);
             }
             else if (isOnStage1)
             {

@@ -54,7 +54,7 @@ public class BossFireball : MonoBehaviour
 
     void FireballExplosion()
     {
-        AudioManager.instance.PlaySFXwithPitchChange(12);
+        AudioManager.instance.PlaySFX(12);
 
         GameObject explosion = Instantiate(fireballExplosionPref, transform.position, Quaternion.identity);
         explosion.transform.localScale = transform.localScale;
