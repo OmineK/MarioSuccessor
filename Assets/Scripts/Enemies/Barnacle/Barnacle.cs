@@ -60,6 +60,6 @@ public class Barnacle : Enemy
 
     public override bool isGroundDetected() => Physics2D.Raycast(transform.position, Vector2.down, (cd.size.y / 2) - 0.02f, whatIsGround);
 
-    public bool isHidden() => Physics2D.Raycast(new Vector3(transform.position.x, transform.position.y + (cd.size.y / 2)), Vector2.up, 0.2f, whatIsGround);
+    public bool isHidden() => Physics2D.Raycast(new Vector3(transform.position.x, transform.position.y + (cd.size.y / 2) + 0.2f), Vector2.up, 0.2f, whatIsGround);
 
 }
